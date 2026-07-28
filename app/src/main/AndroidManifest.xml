@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/file_000000005aa881f8b0630e792d2fc1ea"
+        android:icon="@drawable/icon"
         android:label="Paragon"
         android:theme="@style/Theme.AppCompat.NoActionBar">
 
