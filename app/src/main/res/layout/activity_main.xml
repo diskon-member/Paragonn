@@ -63,6 +63,70 @@
         android:text="SET PIN"
         android:textColor="#0A0A0A"
         android:background="#00FF41"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FITUR TAMBAHAN"
+        android:textColor="#00FF41"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnGPS"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="📍 GPS - Lacak Lokasi"
+        android:textColor="#FFFFFF"
+        android:background="#FF1744"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="📸 Ambil Foto"
+        android:textColor="#FFFFFF"
+        android:background="#FF1744"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnWallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="🖼 Ganti Wallpaper"
+        android:textColor="#FFFFFF"
+        android:background="#FF1744"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnBlockButtons"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="🔒 Matiin Tombol Fisik"
+        android:textColor="#FFFFFF"
+        android:background="#FF1744"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnSpamNotif"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="📨 Spam Notifikasi"
+        android:textColor="#FFFFFF"
+        android:background="#FF1744"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>
