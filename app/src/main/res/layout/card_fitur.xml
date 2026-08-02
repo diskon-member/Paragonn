@@ -59,4 +59,15 @@
         android:textSize="12sp"
         android:fontFamily="sans-serif" />
 
+    <!-- Button untuk fitur non-toggle (default hidden) -->
+    <Button
+        android:id="@+id/btnAction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TAP"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/primary_btn_bg"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
 </LinearLayout>
