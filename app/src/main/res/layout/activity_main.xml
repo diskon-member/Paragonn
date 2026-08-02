@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- ===== HERO CARD ===== -->
+        <!-- HERO CARD -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="240dp"
@@ -102,7 +102,7 @@
 
         </LinearLayout>
 
-        <!-- ===== DEVICE SELECTOR CARD ===== -->
+        <!-- DEVICE SELECTOR -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
@@ -169,7 +169,7 @@
 
         </LinearLayout>
 
-        <!-- ===== JUDUL SECTION ===== -->
+        <!-- JUDUL -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,12 +180,13 @@
             android:fontFamily="sans-serif"
             android:layout_marginBottom="16dp" />
 
-        <!-- ===== GRID 2 KOLOM (Card) ===== -->
+        <!-- GRID 2 KOLOM -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Baris 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,6 +209,7 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
+            <!-- Baris 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -231,6 +233,7 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
+            <!-- Baris 3 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -254,6 +257,7 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
+            <!-- Baris 4 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,6 +281,7 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
+            <!-- Baris 5 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -300,6 +305,7 @@
                     android:layout_marginStart="6dp" />
             </LinearLayout>
 
+            <!-- Baris 6 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -325,71 +331,7 @@
 
         </LinearLayout>
 
-        <!-- ===== TOMBOL-Tombol AKSI (untuk fitur non-toggle) ===== -->
-        <Button
-            android:id="@+id/btnTemaPhising"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Tema Phising"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="12dp" />
-
-        <Button
-            android:id="@+id/btnVideoOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Video Overlay"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/btnSpamNotif"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Spam Notifikasi"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/btnStuckLayar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Stuck Layar"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/btnGPS"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="GPS"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/btnKamera"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Kamera"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <Button
-            android:id="@+id/btnRansomware"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Fake Ransomware"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/primary_btn_bg"
-            android:layout_marginTop="8dp" />
-
-        <!-- ===== GANTI SERVER ===== -->
+        <!-- GANTI SERVER -->
         <EditText
             android:id="@+id/etServerUrl"
             android:layout_width="match_parent"
@@ -415,7 +357,7 @@
             android:fontFamily="sans-serif"
             android:textSize="13sp" />
 
-        <!-- ===== FLOATING BUTTON ===== -->
+        <!-- FLOATING BUTTON -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
