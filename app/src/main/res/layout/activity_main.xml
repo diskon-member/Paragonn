@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- HERO CARD -->
+        <!-- ===== HERO CARD ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="240dp"
@@ -102,7 +102,7 @@
 
         </LinearLayout>
 
-        <!-- DEVICE SELECTOR -->
+        <!-- ===== DEVICE SELECTOR CARD ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
@@ -169,7 +169,7 @@
 
         </LinearLayout>
 
-        <!-- JUDUL -->
+        <!-- ===== JUDUL SECTION ===== -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,113 +180,159 @@
             android:fontFamily="sans-serif"
             android:layout_marginBottom="16dp" />
 
-        <!-- GRID -->
-        <GridLayout
+        <!-- ===== GRID 2 KOLOM ===== -->
+        <!-- Menggunakan LinearLayout dengan weight untuk grid 2 kolom -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:rowCount="6"
-            android:useDefaultMargins="true">
+            android:orientation="vertical">
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardFlashlight"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+            <!-- Baris 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardLockLow"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardFlashlight"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardLockCustom"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardLockLow"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardTemaPhising"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+            <!-- Baris 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardHideIcon"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardLockCustom"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardVideoOverlay"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardTemaPhising"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardSpamNotif"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+            <!-- Baris 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardStuckLayar"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardHideIcon"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardGPS"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardVideoOverlay"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardKamera"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+            <!-- Baris 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardRansomware"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardSpamNotif"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
 
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardNgehang"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="6dp" />
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardStuckLayar"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
 
-        </GridLayout>
+            <!-- Baris 5 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
 
-        <!-- GANTI SERVER -->
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardGPS"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
+
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardKamera"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+
+            <!-- Baris 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardRansomware"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp" />
+
+                <include
+                    layout="@layout/card_fitur"
+                    android:id="@+id/cardNgehang"
+                    android:layout_width="0dp"
+                    android:layout_height="160dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ===== GANTI SERVER ===== -->
         <EditText
             android:id="@+id/etServerUrl"
             android:layout_width="match_parent"
@@ -312,7 +358,7 @@
             android:fontFamily="sans-serif"
             android:textSize="13sp" />
 
-        <!-- FLOATING BUTTON -->
+        <!-- ===== FLOATING BUTTON ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
