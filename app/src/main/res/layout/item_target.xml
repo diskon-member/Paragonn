@@ -1,1 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_fitur_bg_premium"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:elevation="4dp">
 
+    <TextView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/icon_bg_blue"
+        android:gravity="center"
+        android:text="📱"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/tvTargetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vivo Y20s"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTargetDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vivo Y20s"
+            android:textColor="#A9B1C6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvTargetAndroid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Android 13"
+            android:textColor="#A9B1C6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvTargetStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🟢 ONLINE"
+            android:textColor="#30D158"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnControl"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:background="@drawable/btn_gradient"
+        android:text="CONTROL"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
+</LinearLayout>
