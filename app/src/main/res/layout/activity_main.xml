@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#090F1C">
 
-    <!-- Halaman Target List (default visible) -->
+    <!-- Halaman Target List -->
     <LinearLayout
         android:id="@+id/targetListLayout"
         android:layout_width="match_parent"
