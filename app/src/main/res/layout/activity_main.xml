@@ -1,326 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#090F1D"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#090F1C">
 
-    <!-- Header Card -->
+    <!-- Halaman Target List (default visible) -->
     <LinearLayout
+        android:id="@+id/targetListLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/hero_card_bg"
         android:padding="16dp"
-        android:layout_marginBottom="16dp">
+        android:visibility="gone">
 
-        <!-- Baris 1: Nama Device + ID -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="PILIH TARGET"
+            android:textColor="#30D158"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-            <TextView
-                android:id="@+id/tvDeviceName"
-                android:layout_width="0dp"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:id="@+id/targetContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2409BRN2CY"
-                android:textColor="#00FF41"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Halaman Kontrol Device -->
+    <LinearLayout
+        android:id="@+id/controlLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KONTROL DEVICE"
+            android:textColor="#30D158"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp">
+
+            <GridLayout
+                android:id="@+id/gridFitur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="6"
+                android:useDefaultMargins="true" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Dialog Overlay -->
+    <LinearLayout
+        android:id="@+id/dialogOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:background="#121B30"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:elevation="16dp"
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/tvDeviceId"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/icon_bg_blue"
+                android:gravity="center"
+                android:text="📱"
+                android:textSize="32sp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="d9d393e8446f578b"
-                android:textColor="#888888"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Baris 2: Status ONLINE + Tombol PILIH TARGET -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
+                android:text="Belum Ada Target Terhubung"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
 
             <TextView
-                android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ONLINE"
-                android:textColor="#00FF41"
+                android:text="Silakan pilih atau hubungkan target terlebih dahulu sebelum mengakses fitur Control Device."
+                android:textColor="#A9B1C6"
                 android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
 
             <Button
-                android:id="@+id/btnGanti"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:text="📱 PILIH TARGET"
-                android:textColor="#00FF41"
-                android:background="#1A1A1A"
-                android:textSize="12sp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp" />
+                android:id="@+id/btnPilihTarget"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_gradient"
+                android:text="PILIH TARGET"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-        </LinearLayout>
-
-        <!-- Anti Uninstall -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Anti Uninstall"
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_outline"
+                android:text="REFRESH"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/tvAntiUninstallText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OFF"
-                android:textColor="#FF1744"
-                android:textSize="14sp"
-                android:layout_marginEnd="8dp" />
-
-            <Switch
-                android:id="@+id/swAntiUninstall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="#FF1744"
-                android:trackTint="#333333" />
-
-        </LinearLayout>
-
-        <!-- Device Info 2 -->
-        <TextView
-            android:id="@+id/tvDeviceName2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2409BRN2CY"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp" />
-
-        <TextView
-            android:id="@+id/tvDeviceId2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="d9d393e8446f578b"
-            android:textColor="#888888"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvBattery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="11%"
-            android:textColor="#00FF41"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- KONTROL DEVICE -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="KONTROL DEVICE"
-        android:textColor="#00FF41"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <!-- GRID 2 KOLOM -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Baris 1 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardFlashlight"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardLockLow"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
-        </LinearLayout>
-
-        <!-- Baris 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardLockCustom"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardTemaPhising"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
-        </LinearLayout>
-
-        <!-- Baris 3 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardHideIcon"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardVideoOverlay"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
-        </LinearLayout>
-
-        <!-- Baris 4 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardSpamNotif"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardStuckLayar"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
-        </LinearLayout>
-
-        <!-- Baris 5 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardGPS"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardKamera"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
-        </LinearLayout>
-
-        <!-- Baris 6 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardRansomware"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp" />
-
-            <include
-                layout="@layout/card_fitur"
-                android:id="@+id/cardNgehang"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- GANTI SERVER -->
-    <EditText
-        android:id="@+id/etServerUrl"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Masukkan URL server baru..."
-        android:textColor="#FFFFFF"
-        android:textColorHint="#666666"
-        android:background="#1A1A1A"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <Button
-        android:id="@+id/btnSetServer"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="GANTI SERVER"
-        android:textColor="#0A0A0A"
-        android:background="#00FF41"
-        android:textStyle="bold" />
-
-</LinearLayout>
+</FrameLayout>
