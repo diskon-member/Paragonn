@@ -1,1 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#121B30"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp"
+    android:clickable="true"
+    android:focusable="true">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMenuDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="install Ubot"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMenuDetailSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Termux/VPS - form rebrand"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvMenuDetailBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UBOT"
+                android:textColor="#00E5FF"
+                android:textSize="10sp"
+                android:background="#00E5FF22"
+                android:padding="2dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="#666666"
+            android:textSize="24sp"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnMenuAction"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_gradient"
+        android:text="Buka install Ubot"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>
