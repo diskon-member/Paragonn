@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_fitur_bg_premium"
+    android:background="#121B30"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:layout_marginBottom="12dp"
-    android:elevation="4dp">
+    android:layout_marginBottom="8dp">
 
     <TextView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@drawable/icon_bg_blue"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="#1A2A4A"
         android:gravity="center"
         android:text="📱"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="vivo Y20s"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
@@ -37,36 +36,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="vivo Y20s"
-            android:textColor="#A9B1C6"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvTargetAndroid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Android 13"
-            android:textColor="#A9B1C6"
-            android:textSize="12sp" />
+            android:textColor="#666666"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/tvTargetStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="🟢 ONLINE"
-            android:textColor="#30D158"
-            android:textSize="12sp" />
+            android:textColor="#00E5FF"
+            android:textSize="11sp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btnControl"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="32dp"
         android:background="@drawable/btn_gradient"
         android:text="CONTROL"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp" />
+        android:textSize="10sp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp" />
 
 </LinearLayout>
