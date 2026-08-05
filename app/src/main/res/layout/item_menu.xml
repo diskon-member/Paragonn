@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#121B30"
+    android:background="#121C30"
     android:orientation="horizontal"
-    android:padding="16dp"
+    android:padding="14dp"
     android:layout_marginBottom="8dp"
+    android:radius="14dp"
     android:elevation="2dp"
     android:clickable="true"
     android:focusable="true">
@@ -16,42 +17,56 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvMenuTitle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="install Ubot"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvMenuTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="install Ubot"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvMenuBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UBOT"
+                android:textColor="#00E5FF"
+                android:textSize="9sp"
+                android:background="#00E5FF22"
+                android:padding="3dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:radius="4dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvMenuSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Termux/VPS - form rebrand"
-            android:textColor="#666666"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvMenuBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UBOT"
-            android:textColor="#00E5FF"
-            android:textSize="10sp"
-            android:background="#00E5FF22"
-            android:padding="2dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginTop="4dp" />
+            android:textColor="#7A8A9E"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="2dp" />
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_arrow_right"
-        android:layout_gravity="center_vertical" />
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:text="›"
+        android:textColor="#7A8A9E"
+        android:textSize="18sp"
+        android:gravity="center" />
 
 </LinearLayout>
