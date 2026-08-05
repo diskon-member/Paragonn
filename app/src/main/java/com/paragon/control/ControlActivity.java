@@ -74,4 +74,39 @@ public class ControlActivity extends AppCompatActivity {
                     status.setText(isChecked ? "ON" : "OFF");
                     status.setTextColor(isChecked ? 0xFF30D158 : 0xFFE56A8D);
                     mDatabase.child("control").child(fiturNames[index].toLowerCase()).setValue(isChecked);
-                    showSn
+                    showSnackbar("✅ Perintah berhasil dikirim");
+                });
+            } else {
+                sw.setVisibility(View.GONE);
+                btnAction.setVisibility(View.VISIBLE);
+                status.setVisibility(View.GONE);
+
+                final int index = i;
+                btnAction.setOnClickListener(v -> {
+                    showConfirmDialog(fiturNames[index]);
+                });
+            }
+
+            gridFitur.addView(card);
+        }
+    }
+
+    private void showConfirmDialog(String fiturName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Konfirmasi");
+        builder.setMessage("Apakah Anda yakin ingin menjalankan fitur " + fiturName + "?");
+        builder.setPositiveButton("Jalankan", (dialog, which) -> {
+            showSnackbar("⏳ Mengirim perintah...");
+            handler.postDelayed(() -> {
+                mDatabase.child("control").child("command").setValue(fiturName.toLowerCase());
+                showSnackbar("✅ Perintah berhasil dikirim ke target");
+            }, 1000);
+        });
+        builder.setNegativeButton("Batal", null);
+        builder.show();
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
+    }
+}
