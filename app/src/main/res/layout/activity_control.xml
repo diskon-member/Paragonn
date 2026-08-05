@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A0F"
+    android:background="#080C18"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -15,11 +15,14 @@
         <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:background="@drawable/btn_outline"
-            android:text="← KEMBALI"
+            android:text="←"
             android:textColor="#FFFFFF"
-            android:textSize="12sp" />
+            android:textSize="18sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:radius="12dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -27,8 +30,9 @@
             android:layout_weight="1"
             android:text="KONTROL DEVICE"
             android:textColor="#00E5FF"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
+            android:fontFamily="sans-serif"
             android:gravity="center" />
 
     </LinearLayout>
@@ -36,7 +40,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:scrollbars="none">
 
         <GridLayout
             android:id="@+id/gridFitur"
