@@ -1,1 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0A0F"
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SYAM"
+            android:textColor="#00E5FF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PEMULA"
+            android:textColor="#00E5FF"
+            android:textSize="10sp"
+            android:background="#00E5FF22"
+            android:padding="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+    </LinearLayout>
+
+    <!-- ACCESS UNTIL -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACCESS UNTIL"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="31/12/2099, 23:59:59"
+        android:textColor="#FFA500"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Menu Setting -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="Review ACC Jualan" />
+
+        <View style="@style/Divider" />
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="Ambil link GB" />
+
+        <View style="@style/Divider" />
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="Laporan Error User" />
+
+        <View style="@style/Divider" />
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="Lapor Masalah" />
+
+        <View style="@style/Divider" />
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="Change Password" />
+
+        <View style="@style/Divider" />
+
+        <TextView
+            style="@style/SettingItem"
+            android:text="info App" />
+
+    </LinearLayout>
+
+</LinearLayout>
