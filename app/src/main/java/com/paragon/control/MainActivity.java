@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,66 +34,58 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("target");
 
-        // ===== NAVIGASI =====
-        navBeranda.setOnClickListener(v -> {
-            Toast.makeText(this, "🏠 Beranda", Toast.LENGTH_SHORT).show();
-        });
-
+        // NAVIGASI
+        navBeranda.setOnClickListener(v -> setNavActive(navBeranda));
         navMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MenuDetailActivity.class);
-            startActivity(intent);
+            setNavActive(navMenu);
+            startActivity(new Intent(this, MenuDetailActivity.class));
         });
-
         navTools.setOnClickListener(v -> {
-            Toast.makeText(this, "🔧 Tools - RAT", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, ControlActivity.class);
-            startActivity(intent);
+            setNavActive(navTools);
+            startActivity(new Intent(this, ControlActivity.class));
         });
-
         navSetting.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
-            startActivity(intent);
+            setNavActive(navSetting);
+            startActivity(new Intent(this, SettingActivity.class));
         });
 
-        // ===== GUIDE =====
-        btnGuideTermux.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://t.me/syam_guide"));
-            startActivity(intent);
-        });
+        // GUIDE
+        btnGuideTermux.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_guide"))));
+        btnGuideVps.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_vps"))));
 
-        btnGuideVps.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://t.me/syam_vps"));
-            startActivity(intent);
-        });
-
-        // ===== SETUP MENU =====
         setupMenu();
+    }
+
+    private void setNavActive(TextView active) {
+        TextView[] navs = {navBeranda, navMenu, navTools, navSetting};
+        for (TextView nav : navs) {
+            if (nav == active) {
+                nav.setTextColor(getColor(R.color.cyan));
+                nav.setBackgroundResource(R.drawable.nav_active);
+            } else {
+                nav.setTextColor(getColor(R.color.gray));
+                nav.setBackgroundResource(0);
+            }
+        }
     }
 
     private void setupMenu() {
         String[][] menus = {
             {"install Ubot", "Termux/VPS - form rebrand", "UBOT"},
             {"Preview Ui", "Termux/VPS - Flutter", "DEV"},
-            {"9router + Hermes", "Termux/VPS · Ai stack", "AI"},
+            {"JS", "Termux/VPS · JavaScript", "JS"},
             {"install Panel", "Termux/VPS · Panel + Wings", "PANEL"},
             {"Bug & Pairing", "Server di HP · Server Lokal", "BUG"}
         };
 
         for (String[] menu : menus) {
             View item = getLayoutInflater().inflate(R.layout.item_menu, null);
-
-            TextView tvTitle = item.findViewById(R.id.tvMenuTitle);
-            TextView tvSub = item.findViewById(R.id.tvMenuSub);
-            TextView tvBadge = item.findViewById(R.id.tvMenuBadge);
-
-            tvTitle.setText(menu[0]);
-            tvSub.setText(menu[1]);
-            tvBadge.setText(menu[2]);
+            ((TextView) item.findViewById(R.id.tvMenuTitle)).setText(menu[0]);
+            ((TextView) item.findViewById(R.id.tvMenuSub)).setText(menu[1]);
+            ((TextView) item.findViewById(R.id.tvMenuBadge)).setText(menu[2]);
 
             item.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, MenuDetailActivity.class);
+                Intent intent = new Intent(this, MenuDetailActivity.class);
                 intent.putExtra("menuTitle", menu[0]);
                 intent.putExtra("menuSub", menu[1]);
                 intent.putExtra("menuBadge", menu[2]);
