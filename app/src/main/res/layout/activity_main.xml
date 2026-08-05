@@ -1,147 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#090F1C">
+    android:background="#0A0A0F"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- Halaman Target List -->
+    <!-- Header -->
     <LinearLayout
-        android:id="@+id/targetListLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SYAM"
+            android:textColor="#00E5FF"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PILIH TARGET"
-            android:textColor="#30D158"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
-
-            <LinearLayout
-                android:id="@+id/targetContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-        </ScrollView>
-
-    </LinearLayout>
-
-    <!-- Halaman Kontrol Device -->
-    <LinearLayout
-        android:id="@+id/controlLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
+            android:text="Ahlan Wa Sahlan,"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KONTROL DEVICE"
-            android:textColor="#30D158"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp">
-
-            <GridLayout
-                android:id="@+id/gridFitur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="6"
-                android:useDefaultMargins="true" />
-
-        </ScrollView>
+            android:text="syam"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <!-- Dialog Overlay -->
+    <!-- Badge PEMULA -->
     <LinearLayout
-        android:id="@+id/dialogOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#CC000000"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1A1A2E"
+        android:padding="4dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginBottom="16dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚡ PEMULA"
+            android:textColor="#00E5FF"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- SYAM DASHBOARD -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SYAM DASHBOARD"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Statistik Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <!-- Online Users -->
         <LinearLayout
-            android:layout_width="320dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="#121B30"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:elevation="16dp"
+            android:padding="16dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center">
 
             <TextView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:background="@drawable/icon_bg_blue"
-                android:gravity="center"
-                android:text="📱"
-                android:textSize="32sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textColor="#00E5FF"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Belum Ada Target Terhubung"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="8dp" />
+                android:text="Online Users"
+                android:textColor="#666666"
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silakan pilih atau hubungkan target terlebih dahulu sebelum mengakses fitur Control Device."
-                android:textColor="#A9B1C6"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginBottom="24dp" />
+                android:text="LIVE"
+                android:textColor="#FF4444"
+                android:textSize="8sp"
+                android:background="#FF444422"
+                android:padding="2dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:layout_marginTop="4dp" />
 
-            <Button
-                android:id="@+id/btnPilihTarget"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/btn_gradient"
-                android:text="PILIH TARGET"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/btnRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/btn_outline"
-                android:text="REFRESH"
+        <!-- Sender -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#121B30"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sender"
+                android:textColor="#666666"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <!-- Expired -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#121B30"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="31/12/2099"
+                android:textColor="#FFA500"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expired"
+                android:textColor="#666666"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</FrameLayout>
+    <!-- Tombol Guide -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnGuideTermux"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_gradient"
+            android:text="GUIDE TERMUX"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnGuideVps"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_outline"
+            android:text="GUIDE VPS"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+    <!-- AERITA TERKINI -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AERITA TERKINI"
+        android:textColor="#00E5FF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Daftar Menu -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/menuContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/navBeranda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Beranda"
+            android:textColor="#00E5FF"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/navMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Menu"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/navTools"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tools"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/navSetting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Setting"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>
