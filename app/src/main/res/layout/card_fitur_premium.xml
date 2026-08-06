@@ -52,8 +52,7 @@
         android:text="Flashlight"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvStatusFitur"
@@ -61,8 +60,7 @@
         android:layout_height="wrap_content"
         android:text="OFF"
         android:textColor="#E56A8D"
-        android:textSize="11sp"
-        android:fontFamily="sans-serif" />
+        android:textSize="11sp" />
 
     <Button
         android:id="@+id/btnAction"
@@ -73,7 +71,6 @@
         android:textColor="#FFFFFF"
         android:textSize="11sp"
         android:radius="15dp"
-        android:fontFamily="sans-serif"
         android:visibility="gone" />
 
 </LinearLayout>
