@@ -36,22 +36,30 @@ public class MainActivity extends AppCompatActivity {
 
         // NAVIGASI
         navBeranda.setOnClickListener(v -> setNavActive(navBeranda));
+
         navMenu.setOnClickListener(v -> {
             setNavActive(navMenu);
             startActivity(new Intent(this, MenuDetailActivity.class));
         });
+
         navTools.setOnClickListener(v -> {
             setNavActive(navTools);
-            startActivity(new Intent(this, ControlActivity.class));
+            startActivity(new Intent(this, TargetListActivity.class));
         });
+
         navSetting.setOnClickListener(v -> {
             setNavActive(navSetting);
             startActivity(new Intent(this, SettingActivity.class));
         });
 
         // GUIDE
-        btnGuideTermux.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_guide"))));
-        btnGuideVps.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_vps"))));
+        btnGuideTermux.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_guide")));
+        });
+
+        btnGuideVps.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_vps")));
+        });
 
         setupMenu();
     }
@@ -71,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupMenu() {
         String[][] menus = {
-            {"install Ubot", "Termux/VPS - form rebrand", "UBOT"},
-            {"Preview Ui", "Termux/VPS - Flutter", "DEV"},
-            {"JS", "Termux/VPS · JavaScript", "JS"},
-            {"install Panel", "Termux/VPS · Panel + Wings", "PANEL"},
             {"Bug & Pairing", "Server di HP · Server Lokal", "BUG"}
         };
 
