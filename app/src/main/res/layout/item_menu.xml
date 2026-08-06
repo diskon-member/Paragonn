@@ -28,17 +28,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="install Ubot"
+                android:text="Bug & Pairing"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvMenuBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UBOT"
+                android:text="BUG"
                 android:textColor="#00E5FF"
                 android:textSize="9sp"
                 android:background="#00E5FF22"
@@ -53,10 +52,9 @@
             android:id="@+id/tvMenuSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Termux/VPS - form rebrand"
+            android:text="Server di HP · Server Lokal"
             android:textColor="#7A8A9E"
             android:textSize="11sp"
-            android:fontFamily="sans-serif"
             android:layout_marginTop="2dp" />
 
     </LinearLayout>
