@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080C18"
+    android:background="#0A0E1A"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -19,35 +19,24 @@
             android:layout_weight="1"
             android:text="SYAM"
             android:textColor="#00E5FF"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.5" />
+            android:letterSpacing="1" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:text="Ahlan Wa Sahlan,"
+            android:textColor="#7A8A9E"
+            android:textSize="11sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ahlan Wa Sahlan,"
-                android:textColor="#7A8A9E"
-                android:textSize="11sp"
-                android:fontFamily="sans-serif" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" syam"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" syam"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -57,32 +46,22 @@
         android:layout_height="wrap_content"
         android:background="#141E33"
         android:padding="6dp"
-        android:paddingStart="18dp"
-        android:paddingEnd="18dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:radius="20dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:radius="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="⚡"
-            android:textSize="11sp"
-            android:layout_marginEnd="6dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PEMULA"
+            android:text="⚡ PEMULA"
             android:textColor="#00E5FF"
             android:textSize="10sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.5" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <!-- TITLE -->
+    <!-- DASHBOARD -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +69,6 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif"
         android:layout_marginBottom="20dp" />
 
     <!-- STATISTIK -->
@@ -109,8 +87,7 @@
             android:padding="16dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:radius="14dp"
-            android:elevation="2dp">
+            android:radius="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,17 +95,14 @@
                 android:text="3"
                 android:textColor="#00E5FF"
                 android:textSize="26sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Online Users"
+                android:text="Online"
                 android:textColor="#7A8A9E"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="2dp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,8 +127,7 @@
             android:orientation="vertical"
             android:padding="16dp"
             android:gravity="center"
-            android:radius="14dp"
-            android:elevation="2dp">
+            android:radius="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -162,17 +135,14 @@
                 android:text="0"
                 android:textColor="#FFFFFF"
                 android:textSize="26sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sender"
                 android:textColor="#7A8A9E"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="2dp" />
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -185,8 +155,7 @@
             android:padding="16dp"
             android:layout_marginStart="8dp"
             android:gravity="center"
-            android:radius="14dp"
-            android:elevation="2dp">
+            android:radius="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,17 +163,14 @@
                 android:text="31/12/2099"
                 android:textColor="#F59E0B"
                 android:textSize="13sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Expired"
                 android:textColor="#7A8A9E"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif"
-                android:layout_marginTop="2dp" />
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -220,7 +186,7 @@
         <Button
             android:id="@+id/btnGuideTermux"
             android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:background="@drawable/btn_gradient"
             android:text="GUIDE TERMUX"
@@ -228,12 +194,12 @@
             android:textSize="11sp"
             android:textStyle="bold"
             android:layout_marginEnd="8dp"
-            android:radius="23dp" />
+            android:radius="22dp" />
 
         <Button
             android:id="@+id/btnGuideVps"
             android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_height="44dp"
             android:layout_weight="1"
             android:background="@drawable/btn_outline"
             android:text="GUIDE VPS"
@@ -241,11 +207,11 @@
             android:textSize="11sp"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
-            android:radius="23dp" />
+            android:radius="22dp" />
 
     </LinearLayout>
 
-    <!-- MENU TITLE -->
+    <!-- AERITA TERKINI -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -253,9 +219,7 @@
         android:textColor="#00E5FF"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:fontFamily="sans-serif"
-        android:layout_marginBottom="14dp"
-        android:letterSpacing="0.5" />
+        android:layout_marginBottom="14dp" />
 
     <!-- MENU LIST -->
     <ScrollView
@@ -275,19 +239,18 @@
     <!-- BOTTOM NAV -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="52dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="12dp"
         android:background="#121C30"
-        android:radius="16dp"
-        android:padding="4dp"
-        android:elevation="4dp">
+        android:radius="14dp"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/navBeranda"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="38dp"
             android:layout_weight="1"
             android:text="Beranda"
             android:textColor="#00E5FF"
@@ -300,7 +263,7 @@
         <TextView
             android:id="@+id/navMenu"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="38dp"
             android:layout_weight="1"
             android:text="Menu"
             android:textColor="#7A8A9E"
@@ -310,7 +273,7 @@
         <TextView
             android:id="@+id/navTools"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="38dp"
             android:layout_weight="1"
             android:text="Tools"
             android:textColor="#7A8A9E"
@@ -320,7 +283,7 @@
         <TextView
             android:id="@+id/navSetting"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="38dp"
             android:layout_weight="1"
             android:text="Setting"
             android:textColor="#7A8A9E"
