@@ -2,25 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#121B30"
+    android:background="#121C30"
     android:orientation="horizontal"
-    android:padding="16dp"
-    android:layout_marginBottom="8dp">
+    android:padding="14dp"
+    android:layout_marginBottom="8dp"
+    android:radius="14dp"
+    android:elevation="2dp"
+    android:clickable="true"
+    android:focusable="true">
 
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="#1A2A4A"
-        android:gravity="center"
-        android:text="📱"
-        android:textSize="20sp" />
+    <ImageView
+        android:id="@+id/ivTargetIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_phone"
+        android:background="#1A263A"
+        android:padding="12dp"
+        android:radius="12dp" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginStart="12dp">
+        android:layout_marginStart="14dp">
 
         <TextView
             android:id="@+id/tvTargetName"
@@ -28,36 +33,49 @@
             android:layout_height="wrap_content"
             android:text="vivo Y20s"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvTargetDevice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vivo Y20s"
-            android:textColor="#666666"
+            android:text="ID: 1e5b8925ea01bef1"
+            android:textColor="#7A8A9E"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/tvTargetStatus"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🟢 ONLINE"
-            android:textColor="#00E5FF"
-            android:textSize="11sp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvTargetStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🟢 ONLINE"
+                android:textColor="#00E5FF"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tvTargetBattery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="78%"
+                android:textColor="#7A8A9E"
+                android:textSize="11sp"
+                android:layout_marginStart="12dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnControl"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:background="@drawable/btn_gradient"
-        android:text="CONTROL"
-        android:textColor="#FFFFFF"
-        android:textSize="10sp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_right"
+        android:tint="#7A8A9E"
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>
