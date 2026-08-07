@@ -3,7 +3,6 @@
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@color/background</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="ButtonGradient">
@@ -13,7 +12,6 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins</item>
         <item name="android:radius">25dp</item>
         <item name="android:elevation">4dp</item>
     </style>
@@ -25,7 +23,6 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins</item>
         <item name="android:radius">22dp</item>
     </style>
 
@@ -47,7 +44,6 @@
         <item name="android:textColor">@color/primary</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="StatLabel">
@@ -55,7 +51,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_secondary</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="NavItem">
@@ -65,7 +60,6 @@
         <item name="android:textColor">@color/text_secondary</item>
         <item name="android:textSize">11sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="NavActive">
@@ -77,7 +71,6 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/nav_active</item>
         <item name="android:radius">12dp</item>
-        <item name="android:fontFamily">@font/poppins</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>
