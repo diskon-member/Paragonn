@@ -22,7 +22,6 @@ public class TargetListActivity extends AppCompatActivity {
     private LinearLayout targetContainer;
     private Button btnBack;
     private TextView tvStatusTarget;
-    private boolean hasTarget = false;
     private ValueEventListener targetListener;
 
     @Override
@@ -68,13 +67,11 @@ public class TargetListActivity extends AppCompatActivity {
                     }
                 }
 
-                // KALO BELUM ADA TARGET
                 if (!anyTarget) {
                     showDialogNoTarget();
                     return;
                 }
 
-                // KALO TARGET ADA TAPI SEMUA OFFLINE
                 if (!hasOnlineTarget) {
                     tvStatusTarget.setText("⚠️ Semua target offline");
                     tvStatusTarget.setTextColor(getColor(R.color.red));
@@ -137,4 +134,4 @@ public class TargetListActivity extends AppCompatActivity {
             mDatabase.removeEventListener(targetListener);
         }
     }
-  }
+                                       }
