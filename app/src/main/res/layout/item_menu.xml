@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Bug & Pairing"
+                android:text="Bug &amp; Pairing"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -52,7 +52,7 @@
             android:id="@+id/tvMenuSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Server di HP · Server Lokal"
+            android:text="Server di HP &#183; Server Lokal"
             android:textColor="#7A8A9E"
             android:textSize="11sp"
             android:layout_marginTop="2dp"/>
@@ -62,7 +62,7 @@
     <TextView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:text="›"
+        android:text="&#8250;"
         android:textColor="#7A8A9E"
         android:textSize="18sp"
         android:gravity="center"/>
