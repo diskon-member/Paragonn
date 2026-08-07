@@ -213,41 +213,32 @@
     <!-- RAT BUTTON -->
     <Button
         android:id="@+id/btnRAT"
-        style="@style/ButtonGradient"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_gradient"
         android:text="🔓 RAT - CONTROL"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        android:radius="25dp"
+        android:elevation="4dp"
         android:layout_marginBottom="10dp"/>
 
     <!-- APP BUILD BUTTON -->
     <Button
         android:id="@+id/btnAppBuild"
-        style="@style/ButtonGradient"
-        android:text="🔧 APP BUILD"
-        android:layout_marginBottom="20dp"/>
-
-    <!-- GUIDE BUTTONS -->
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
-
-        <Button
-            android:id="@+id/btnGuideTermux"
-            style="@style/ButtonOutline"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="GUIDE TERMUX"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/btnGuideVps"
-            style="@style/ButtonOutline"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="GUIDE VPS"
-            android:layout_marginStart="8dp"/>
-
-    </LinearLayout>
+        android:layout_height="50dp"
+        android:background="@drawable/btn_gradient"
+        android:text="🔧 APP BUILD"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        android:radius="25dp"
+        android:elevation="4dp"
+        android:layout_marginBottom="20dp"/>
 
     <!-- BOTTOM NAV -->
     <LinearLayout
@@ -263,23 +254,50 @@
 
         <TextView
             android:id="@+id/navBeranda"
-            style="@style/NavActive"
-            android:text="Beranda"/>
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Beranda"
+            android:textColor="#00D4FF"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:background="#1A263A"
+            android:radius="12dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/navMenu"
-            style="@style/NavItem"
-            android:text="Menu"/>
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Menu"
+            android:textColor="#7A8B9E"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif"/>
 
         <TextView
             android:id="@+id/navTools"
-            style="@style/NavItem"
-            android:text="Tools"/>
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Tools"
+            android:textColor="#7A8B9E"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif"/>
 
         <TextView
             android:id="@+id/navSetting"
-            style="@style/NavItem"
-            android:text="Setting"/>
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Setting"
+            android:textColor="#7A8B9E"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif"/>
 
     </LinearLayout>
 
