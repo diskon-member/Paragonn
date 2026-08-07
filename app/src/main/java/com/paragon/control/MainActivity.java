@@ -15,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private Button btnGuideTermux, btnGuideVps, btnAppBuild, btnRAT;
+    private Button btnAppBuild, btnRAT;
     private TextView navBeranda, navMenu, navTools, navSetting;
 
     private static final int REQUEST_APP_BUILD = 1001;
@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnGuideTermux = findViewById(R.id.btnGuideTermux);
-        btnGuideVps = findViewById(R.id.btnGuideVps);
         btnAppBuild = findViewById(R.id.btnAppBuild);
         btnRAT = findViewById(R.id.btnRAT);
         navBeranda = findViewById(R.id.navBeranda);
@@ -58,14 +56,6 @@ public class MainActivity extends AppCompatActivity {
         navSetting.setOnClickListener(v -> {
             setNavActive(navSetting);
             startActivity(new Intent(this, SettingActivity.class));
-        });
-
-        // ===== GUIDE =====
-        btnGuideTermux.setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_guide")));
-        });
-        btnGuideVps.setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_vps")));
         });
     }
 
