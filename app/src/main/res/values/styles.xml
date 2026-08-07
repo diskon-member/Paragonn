@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/background</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:windowBackground">@color/dragon_bg</item>
+        <item name="android:textColor">@color/dragon_text</item>
     </style>
 
     <style name="ButtonGradient">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:background">@drawable/btn_gradient</item>
+        <item name="android:background">@drawable/dragon_btn</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
@@ -19,7 +19,7 @@
     <style name="ButtonOutline">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">44dp</item>
-        <item name="android:background">@drawable/btn_outline</item>
+        <item name="android:background">@drawable/dragon_outline</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
@@ -30,7 +30,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@color/card_bg</item>
+        <item name="android:background">@color/dragon_card</item>
         <item name="android:orientation">vertical</item>
         <item name="android:padding">16dp</item>
         <item name="android:gravity">center</item>
@@ -41,7 +41,7 @@
     <style name="StatNumber">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/primary</item>
+        <item name="android:textColor">@color/dragon_red</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -49,7 +49,7 @@
     <style name="StatLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">@color/dragon_dim</item>
         <item name="android:textSize">10sp</item>
     </style>
 
@@ -57,7 +57,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">@color/dragon_dim</item>
         <item name="android:textSize">11sp</item>
         <item name="android:gravity">center</item>
     </style>
@@ -66,7 +66,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/primary</item>
+        <item name="android:textColor">@color/dragon_red</item>
         <item name="android:textSize">11sp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/nav_active</item>
@@ -74,12 +74,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- SETTING STYLES -->
     <style name="SettingItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/dragon_text</item>
         <item name="android:textSize">14sp</item>
         <item name="android:paddingStart">4dp</item>
     </style>
@@ -87,6 +86,6 @@
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">#1A263A</item>
+        <item name="android:background">@color/dragon_dark</item>
     </style>
 </resources>
