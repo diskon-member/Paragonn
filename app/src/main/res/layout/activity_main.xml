@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0E1A"
+    android:background="#060B18"
     android:orientation="vertical"
     android:padding="20dp">
 
+    <!-- HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,56 +19,83 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SYAM"
-            android:textColor="#00E5FF"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
+            android:textColor="#00D4FF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="1"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ahlan Wa Sahlan,"
-            android:textColor="#7A8A9E"
-            android:textSize="11sp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" syam"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ahlan Wa Sahlan,"
+                android:textColor="#7A8B9E"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" syam"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
+    <!-- BADGE -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#141E33"
+        android:background="#0D1A2E"
         android:padding="6dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         android:layout_marginBottom="20dp"
-        android:radius="20dp">
+        android:radius="20dp"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="⚡ PEMULA"
-            android:textColor="#00E5FF"
+            android:text="⚡"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PEMULA"
+            android:textColor="#00D4FF"
             android:textSize="10sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.5"/>
 
     </LinearLayout>
 
+    <!-- TITLE -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SYAM DASHBOARD"
+        android:text="DASHBOARD"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:fontFamily="sans-serif"
+        android:layout_marginBottom="20dp"
+        android:letterSpacing="0.5"/>
 
+    <!-- STATISTIK -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,35 +106,39 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#121C30"
+            android:background="#0D1A2E"
             android:orientation="vertical"
             android:padding="16dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:radius="14dp">
+            android:radius="14dp"
+            android:elevation="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3"
-                android:textColor="#00E5FF"
+                android:textColor="#00D4FF"
                 android:textSize="26sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Online"
-                android:textColor="#7A8A9E"
-                android:textSize="10sp"/>
+                android:textColor="#7A8B9E"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LIVE"
-                android:textColor="#FF4444"
+                android:text="● LIVE"
+                android:textColor="#FF2D55"
                 android:textSize="8sp"
-                android:background="#FF444422"
+                android:fontFamily="sans-serif"
+                android:background="#FF2D5522"
                 android:padding="2dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -118,11 +151,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#121C30"
+            android:background="#0D1A2E"
             android:orientation="vertical"
             android:padding="16dp"
             android:gravity="center"
-            android:radius="14dp">
+            android:radius="14dp"
+            android:elevation="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -130,14 +164,16 @@
                 android:text="0"
                 android:textColor="#FFFFFF"
                 android:textSize="26sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sender"
-                android:textColor="#7A8A9E"
-                android:textSize="10sp"/>
+                android:textColor="#7A8B9E"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif"/>
 
         </LinearLayout>
 
@@ -145,44 +181,50 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#121C30"
+            android:background="#0D1A2E"
             android:orientation="vertical"
             android:padding="16dp"
             android:layout_marginStart="8dp"
             android:gravity="center"
-            android:radius="14dp">
+            android:radius="14dp"
+            android:elevation="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="31/12/2099"
-                android:textColor="#F59E0B"
+                android:textColor="#FFB800"
                 android:textSize="13sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Expired"
-                android:textColor="#7A8A9E"
-                android:textSize="10sp"/>
+                android:textColor="#7A8B9E"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!-- RAT BUTTON -->
+    <Button
+        android:id="@+id/btnRAT"
+        style="@style/ButtonGradient"
+        android:text="🔓 RAT - CONTROL"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- APP BUILD BUTTON -->
     <Button
         android:id="@+id/btnAppBuild"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/btn_gradient"
+        style="@style/ButtonGradient"
         android:text="🔧 APP BUILD"
-        android:textColor="#FFFFFF"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:radius="25dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="20dp"/>
 
+    <!-- GUIDE BUTTONS -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -191,107 +233,53 @@
 
         <Button
             android:id="@+id/btnGuideTermux"
+            style="@style/ButtonOutline"
             android:layout_width="0dp"
-            android:layout_height="44dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_gradient"
             android:text="GUIDE TERMUX"
-            android:textColor="#FFFFFF"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp"
-            android:radius="22dp"/>
+            android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/btnGuideVps"
+            style="@style/ButtonOutline"
             android:layout_width="0dp"
-            android:layout_height="44dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_outline"
             android:text="GUIDE VPS"
-            android:textColor="#FFFFFF"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            android:radius="22dp"/>
+            android:layout_marginStart="8dp"/>
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AERITA TERKINI"
-        android:textColor="#00E5FF"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="14dp"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/menuContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-
-    </ScrollView>
-
+    <!-- BOTTOM NAV -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="54dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="12dp"
-        android:background="#121C30"
+        android:layout_marginTop="auto"
+        android:background="#0D1A2E"
         android:radius="14dp"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:elevation="4dp">
 
         <TextView
             android:id="@+id/navBeranda"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:text="Beranda"
-            android:textColor="#00E5FF"
-            android:textSize="11sp"
-            android:gravity="center"
-            android:background="#1A263A"
-            android:radius="10dp"
-            android:textStyle="bold"/>
+            style="@style/NavActive"
+            android:text="Beranda"/>
 
         <TextView
             android:id="@+id/navMenu"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:text="Menu"
-            android:textColor="#7A8A9E"
-            android:textSize="11sp"
-            android:gravity="center"/>
+            style="@style/NavItem"
+            android:text="Menu"/>
 
         <TextView
             android:id="@+id/navTools"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:text="Tools"
-            android:textColor="#7A8A9E"
-            android:textSize="11sp"
-            android:gravity="center"/>
+            style="@style/NavItem"
+            android:text="Tools"/>
 
         <TextView
             android:id="@+id/navSetting"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_weight="1"
-            android:text="Setting"
-            android:textColor="#7A8A9E"
-            android:textSize="11sp"
-            android:gravity="center"/>
+            style="@style/NavItem"
+            android:text="Setting"/>
 
     </LinearLayout>
 
