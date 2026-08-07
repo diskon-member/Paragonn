@@ -31,7 +31,7 @@
                 android:text="Bug & Pairing"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tvMenuBadge"
@@ -44,7 +44,7 @@
                 android:padding="3dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:radius="4dp" />
+                android:radius="4dp"/>
 
         </LinearLayout>
 
@@ -55,7 +55,7 @@
             android:text="Server di HP · Server Lokal"
             android:textColor="#7A8A9E"
             android:textSize="11sp"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"/>
 
     </LinearLayout>
 
@@ -65,6 +65,6 @@
         android:text="›"
         android:textColor="#7A8A9E"
         android:textSize="18sp"
-        android:gravity="center" />
+        android:gravity="center"/>
 
 </LinearLayout>
