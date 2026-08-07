@@ -31,10 +31,6 @@
             android:name=".SettingActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".MenuDetailActivity"
-            android:exported="false" />
-
     </application>
 
 </manifest>
