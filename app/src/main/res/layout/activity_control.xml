@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080C18"
+    android:background="#0A0E1A"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -22,7 +22,7 @@
             android:textSize="18sp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:radius="12dp" />
+            android:radius="12dp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -32,8 +32,7 @@
             android:textColor="#00E5FF"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif"
-            android:gravity="center" />
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -49,7 +48,7 @@
             android:layout_height="wrap_content"
             android:columnCount="2"
             android:rowCount="6"
-            android:useDefaultMargins="true" />
+            android:useDefaultMargins="true"/>
 
     </ScrollView>
 
