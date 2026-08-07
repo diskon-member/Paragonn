@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#00D4FF</color>
-    <color name="primary_dark">#0099CC</color>
-    <color name="secondary">#7A8B9E</color>
-    <color name="background">#060B18</color>
-    <color name="card_bg">#0D1A2E</color>
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#7A8B9E</color>
-    <color name="accent">#FF2D55</color>
-    <color name="success">#00FF87</color>
-    <color name="warning">#FFB800</color>
-    <color name="danger">#FF2D55</color>
-    <color name="cyan">#00D4FF</color>
-    <color name="red">#FF2D55</color>
+    <color name="dragon_red">#FF1A1A</color>
+    <color name="dragon_dark">#8B0000</color>
+    <color name="dragon_gold">#FFD700</color>
+    <color name="dragon_bg">#0A0000</color>
+    <color name="dragon_card">#1A0000</color>
+    <color name="dragon_text">#FFFFFF</color>
+    <color name="dragon_dim">#8B0000</color>
+    <color name="primary">#FF1A1A</color>
+    <color name="secondary">#8B0000</color>
+    <color name="red">#FF1A1A</color>
+    <color name="cyan">#FF1A1A</color>
 </resources>
