@@ -11,4 +11,6 @@
     <color name="success">#00FF87</color>
     <color name="warning">#FFB800</color>
     <color name="danger">#FF2D55</color>
+    <color name="cyan">#00D4FF</color>
+    <color name="red">#FF2D55</color>
 </resources>
