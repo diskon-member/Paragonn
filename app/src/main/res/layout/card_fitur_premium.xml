@@ -15,20 +15,19 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <TextView
+        <ImageView
             android:id="@+id/ivIcon"
             android:layout_width="38dp"
             android:layout_height="38dp"
+            android:src="@drawable/ic_flashlight"
             android:background="#1A263A"
-            android:gravity="center"
-            android:text="🔦"
-            android:textSize="18sp"
-            android:radius="10dp" />
+            android:padding="8dp"
+            android:radius="10dp"/>
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <Switch
             android:id="@+id/swFitur"
@@ -36,14 +35,14 @@
             android:layout_height="24dp"
             android:thumbTint="#FFFFFF"
             android:trackTint="#2A3A5C"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <TextView
         android:id="@+id/tvNamaFitur"
@@ -52,7 +51,7 @@
         android:text="Flashlight"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvStatusFitur"
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="OFF"
         android:textColor="#E56A8D"
-        android:textSize="11sp" />
+        android:textSize="11sp"/>
 
     <Button
         android:id="@+id/btnAction"
@@ -71,6 +70,6 @@
         android:textColor="#FFFFFF"
         android:textSize="11sp"
         android:radius="15dp"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </LinearLayout>
