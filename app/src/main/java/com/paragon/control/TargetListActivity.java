@@ -79,7 +79,7 @@ public class TargetListActivity extends AppCompatActivity {
                 }
 
                 tvStatusTarget.setText("✅ " + hasOnlineTarget + " target online");
-                tvStatusTarget.setTextColor(getColor(R.color.cyan));
+                tvStatusTarget.setTextColor(getColor(R.color.primary));
             }
 
             @Override
@@ -102,7 +102,7 @@ public class TargetListActivity extends AppCompatActivity {
         tvName.setText(deviceName);
         tvDevice.setText("ID: " + deviceId);
         tvStatus.setText(online ? "🟢 ONLINE" : "🔴 OFFLINE");
-        tvStatus.setTextColor(online ? getColor(R.color.cyan) : getColor(R.color.red));
+        tvStatus.setTextColor(online ? getColor(R.color.primary) : getColor(R.color.red));
         tvBattery.setText(battery + "%");
 
         item.setOnClickListener(v -> {
@@ -117,12 +117,12 @@ public class TargetListActivity extends AppCompatActivity {
 
     private void showDialogNoTarget() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("⚠️ Belum Ada Target Terhubung");
-        builder.setMessage("Silakan hubungkan target terlebih dahulu.\n\nInstall Raven Tracer di HP target dan login.");
-        builder.setPositiveButton("🔍 REFRESH", (dialog, which) -> {
+        builder.setTitle("🐉 Belum Ada Target Terhubung");
+        builder.setMessage("Install Dragon Core (Raven Tracer) di HP target dan login.");
+        builder.setPositiveButton("🔥 REFRESH", (dialog, which) -> {
             checkTargets();
         });
-        builder.setNegativeButton("Tutup", null);
+        builder.setNegativeButton("🐉 TUTUP", null);
         builder.setCancelable(false);
         builder.show();
     }
@@ -134,4 +134,4 @@ public class TargetListActivity extends AppCompatActivity {
             mDatabase.removeEventListener(targetListener);
         }
     }
-                                       }
+}
